@@ -58,6 +58,13 @@ const UserSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId, 
         ref : "predictions"
     }
+    //Do we need to add leagues as well?
+    //Ex:
+    //leagues : {
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "league"
+        
+    // }
 }, {timestamps : true});
 
 // MIDDLEWEAR
