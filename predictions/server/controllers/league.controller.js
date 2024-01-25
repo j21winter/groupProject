@@ -11,7 +11,7 @@ const addLeague = (req, res) => {
         })
 }
 
-// READ
+// READ ONE by League id
 const findLeague = (req, res) => {
     League.findById(req.params.id)
         .then( foundLeague => {
@@ -20,6 +20,18 @@ const findLeague = (req, res) => {
         .catch(err => {
             res.status(400).json(err)
         })
+}
+
+// READ ALL
+const findAllLeagues=(req, res)=> {
+    League.find()
+        .then(allLeagues => {
+            res.json({ leagues: allLeagues })
+        })
+        .catch(err => {
+            res.status(400).json(err)
+        });
+
 }
 // UPDATE
 const updateLeague = (req, res) => {
@@ -51,5 +63,6 @@ module.exports = {
     addLeague, 
     findLeague, 
     updateLeague, 
-    deleteLeague
+    deleteLeague,
+    findAllLeagues
 }
