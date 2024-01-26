@@ -1,5 +1,5 @@
 const UserController = require('../controllers/user.controller')
-const { authenticate } = require('../config/jwt.config')
+// const { authenticate } = require('../config/jwt.config')
 
 module.exports = (app) => {
     // LOGIN & REG ROUTES
@@ -7,12 +7,14 @@ module.exports = (app) => {
     app.post('/api/login', UserController.login)
     
     // PROTECTED ROUTES 
-    app.post('/api/logout', authenticate, UserController.logout)
+    app.post('/api/logout',  UserController.logout)
     // READ
-    app.get('/api/user/:id', authenticate, UserController.findOne)
+    app.get('/api/user/:id',  UserController.findOne)
     // UPDATE
-    app.patch('/api/user/:id', authenticate, UserController.updateUser)
+    app.patch('/api/user/:id',  UserController.updateUser)
     // DELETE
-    app.delete('/api/user/:id', authenticate, UserController.deleteUser)
+    app.delete('/api/user/:id',  UserController.deleteUser)
+
+    //need to add authenticate back in once fixed^
     
 }

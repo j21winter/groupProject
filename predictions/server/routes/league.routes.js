@@ -1,6 +1,6 @@
 const LeagueController = require('../controllers/league.controller')
-const { authenticate } = require('../config/jwt.config')
-const League = require('../models/league.model')
+// const { authenticate } = require('../config/jwt.config')
+
 
 module.exports = (app) => {
     
