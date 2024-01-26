@@ -8,6 +8,7 @@ const LeaguePage = () => {
     // api call to grab all league members
   return (
     <div>
+        <Link to={'/dashboard'}>Dashboard</Link>
         <h1>League Name will go here!</h1>
         {/* will want to display all league members by mapping through */}
     </div>
