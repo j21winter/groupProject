@@ -3,14 +3,17 @@ import axios from 'axios'
 import {useParams, Link} from 'react-router-dom'
 
 const DashboardRight = () => {
-  const [leagues, setLeagues]=useState({})
+  const [leagues, setLeagues]=useState([])
 // axios call to get available leagues links for leagues user can join 
-  
+
+
+ {/* having trouble with the axios call to map through leagues  */}
   useEffect(()=>{
     axios.get('/api/allLeagues')
     .then(res=>{
         console.log(res)
-        setLeagues(res.data.leagues)
+        setLeagues(res.data)
+        
     })
     .catch(err=>{
         console.log(err)
