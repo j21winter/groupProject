@@ -6,19 +6,16 @@ import DashboardRight from './DashboardRight'
 
 const Dashboard = () => {
 
-  // Errors
-  const [errors, setErrors] = useState({
-    leagues : {
-      league_name: ""
-    },
-    
-  })
+  
   return (
     <>
-        <div className="container">
-            <DashboardLeft errors={errors} setErrors={setErrors}/>
-            <DashboardMid></DashboardMid>
-            <DashboardRight></DashboardRight>
+        <div className="row mx-auto" >
+
+            <div className='col'><DashboardLeft /></div>
+            <div className='col'><DashboardMid></DashboardMid></div>
+            {/* <div className='col'><DashboardRight></DashboardRight></div> */}
+            
+            
         </div>
     </>
   )

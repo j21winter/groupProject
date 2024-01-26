@@ -92,8 +92,8 @@ const RegForm = (props) => {
         axios.post('http://localhost:8000/api/register', regInput, {withCredentials: true})
             .then(res => {
                 saveLoggedInUser(res.data.user)
-                // redirect to homepage
-                navigate('/home') 
+                // redirect to dashboard
+                navigate('/dashboard') 
             })
             .catch(err => {
                 setErrors( prevErrors => {
