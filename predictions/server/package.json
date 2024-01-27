@@ -19,7 +19,11 @@
     "dotenv": "^16.3.2",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+<<<<<<< HEAD
     "mongoose": "^8.1.1",
     "socket.io": "^4.7.4"
+=======
+    "mongoose": "^8.1.1"
+>>>>>>> cfc5cae5c0b381e73870418edbd25d3903863858
   }
 }

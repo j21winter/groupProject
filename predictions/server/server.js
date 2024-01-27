@@ -18,6 +18,7 @@ require('./config/mongoose.config');
 // ROUTES
 require('./routes/user.routes')(app)
 require('./routes/prediction.routes')(app)
+require('./routes/league.routes')(app)
 
 
 app.listen(port, () => console.log(`listening on port: ${port}`));

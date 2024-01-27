@@ -44,8 +44,8 @@ const LoginForm = (props) => {
         axios.post('http://localhost:8000/api/login', loginInput, {withCredentials: true})
             .then(res => {
                 saveLoggedInUser(res.data.user)
-                // redirect to homepage
-                navigate('/home')
+                // redirect to dashboard
+                navigate('/dashboard')
             })
             .catch(err => {
                 // Add errors for display

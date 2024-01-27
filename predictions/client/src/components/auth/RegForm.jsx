@@ -27,6 +27,48 @@ const RegForm = (props) => {
         )
     };
 
+    // Validation function
+    function validate(regInput){
+        const registrationErrors = {};
+        let isValid = true;
+    
+        
+        if (regInput.firstName.length < 3) {
+            registrationErrors.firstName = 'First name must be at least 3 characters';
+            isValid = false;
+        }
+    
+        
+        if (regInput.lastName.length < 3) {
+            registrationErrors.lastName = 'Last name must be at least 3 characters';
+            isValid = false;
+        }
+    
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(regInput.email)) {
+            registrationErrors.email = 'Invalid email format';
+            isValid = false;
+        }
+    
+        
+        if (regInput.password.length < 8) {
+            registrationErrors.password = 'Password must be at least 8 characters';
+            isValid = false;
+        }
+    
+        // Set the errors
+        setErrors((prevErrors) => ({
+        ...prevErrors,
+        ['registration']: {
+            ...prevErrors['registration'],
+            ...registrationErrors,
+        },
+        }));
+    
+        return isValid;
+    };
+
     // ONSUBMIT FUNCTION
     const handleRegSubmit = (e) => {
         e.preventDefault();
@@ -40,14 +82,18 @@ const RegForm = (props) => {
                     password: "", 
                     confirmPassword: ""
             }
-        }))
+        }));
+        //Validation for Register
+        if(!validate(regInput)){
+            return;
+        }
     
         // make API call to register
         axios.post('http://localhost:8000/api/register', regInput, {withCredentials: true})
             .then(res => {
                 saveLoggedInUser(res.data.user)
-                // redirect to homepage
-                navigate('/home') 
+                // redirect to dashboard
+                navigate('/dashboard') 
             })
             .catch(err => {
                 setErrors( prevErrors => {
@@ -61,8 +107,10 @@ const RegForm = (props) => {
             })
         });
     };
+        
 
-  return (
+
+    return (
     <>{/* REGISTRATION FORM */}
         <div id='registration' className='card p-0 m-2 w-100 rounded rounded 2 overflow-hidden border-0 ' style={{ backgroundColor: "rgb(192, 214, 223)"}}>
 
