@@ -43,8 +43,10 @@ const LoginForm = (props) => {
         // API Call
         axios.post('http://localhost:8000/api/login', loginInput, {withCredentials: true})
             .then(res => {
+                // save user to state and local memory
                 saveLoggedInUser(res.data.user)
-                setScoresAndPredictions(res.data.setScoresAndPredictions)
+                // save scores and predictions to state
+                setScoresAndPredictions(res.data.scoresAndPredictions)
                 // redirect to dashboard
                 navigate('/dashboard')
             })
