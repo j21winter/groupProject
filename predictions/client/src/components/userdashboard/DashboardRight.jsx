@@ -9,10 +9,10 @@ const DashboardRight = () => {
 
  {/* having trouble with the axios call to map through leagues  */}
   useEffect(()=>{
-    axios.get('/api/allLeagues')
+    axios.get("http://localhost:8000/api/allLeagues")
     .then(res=>{
         console.log(res)
-        setLeagues(res.data)
+        setLeagues(res.data.allLeagues)
         
     })
     .catch(err=>{
@@ -23,7 +23,8 @@ const DashboardRight = () => {
 
   return (
     <>
-      <h3>All Leagues</h3>
+    <div>
+    <h3>All Leagues</h3>
       {
           leagues.map((league)=>(
             <div key={league._id}>
@@ -31,7 +32,9 @@ const DashboardRight = () => {
                   <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
             
             </div>
-))}
+      ))}
+    </div>
+      
         
     </>
   )

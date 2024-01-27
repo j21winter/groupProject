@@ -6,7 +6,7 @@ module.exports = (app) => {
     
     // PROTECTED ROUTES 
     // CREATE
-    app.post('api/league/new', LeagueController.addLeague)
+    app.post('/api/league/new', LeagueController.addLeague)
     // READ ALL Leagues
     app.get('/api/allLeagues', LeagueController.findAllLeagues)
     // READ One League

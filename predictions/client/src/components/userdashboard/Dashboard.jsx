@@ -13,7 +13,7 @@ const Dashboard = () => {
 
             <div className='col'><DashboardLeft /></div>
             <div className='col'><DashboardMid></DashboardMid></div>
-            {/* <div className='col'><DashboardRight></DashboardRight></div> */}
+            <div className='col'><DashboardRight></DashboardRight></div>
             {/* having trouble with the axios call to map through leagues  */}
             
         </div>

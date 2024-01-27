@@ -1,14 +1,23 @@
 const League = require('../models/league.model')
+const User = require('../models/user.model')
 
 // CREATE
-const addLeague = (req, res) => {
-    League.create(req.body)
-        .then( newLeague => {
-            res.status(200).json(newLeague)
-        })
-        .catch(err => {
-            res.status(400).json(err)
-        })
+const addLeague = async(req, res) => {
+    try{
+        console.log(req.body)
+        const newLeague= await League.create(req.body)
+        const updatedUser= await User.findOneAndUpdate(
+            { _id: req.body.user_id },
+            { 
+                $push: { leagues: newLeague }, // push to the history array
+            },
+            { new: true, runValidators: true }
+        ).populate("leagues")
+            res.json({newLeague, updatedUser})
+    }catch(error){ 
+        console.log(error)
+        // res.json(error)
+    }
 }
 
 // READ ONE by League id
@@ -26,7 +35,8 @@ const findLeague = (req, res) => {
 const findAllLeagues=(req, res)=> {
     League.find()
         .then(allLeagues => {
-            res.json({ leagues: allLeagues })
+            console.log("LEAGUES", allLeagues)
+            res.status(200).json({allLeagues})
         })
         .catch(err => {
             res.status(400).json(err)

@@ -9,8 +9,14 @@ const LeagueSchema = new mongoose.Schema({
     user : {
       // reference the user object with the ID
       type : mongoose.Schema.Types.ObjectId,
-      ref: "users"
-  }},
+      ref: "User"
+    },
+    members: [{
+      type : mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }]
+  
+  },
 
  
     //Do we need to add an empty list of league members or a league owner here? Or does that come somewhere later?
