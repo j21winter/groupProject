@@ -5,12 +5,13 @@ module.exports = (app) => {
     
     // PROTECTED ROUTES 
     // CREATE
-    app.post('api/prediction/new', authenticate, PredictionController.addPrediction)
+    app.post('/api/predictions/new', PredictionController.addPrediction)
     // READ
-    app.get('/api/prediction/:id', authenticate, PredictionController.findPrediction)
+    app.get('/api/predictions', PredictionController.findAllPredictions)
+    app.get('/api/predictions/:id', authenticate, PredictionController.findPrediction)
     // UPDATE
-    app.patch('/api/prediction/:id', authenticate, PredictionController.updatePrediction)
+    app.patch('/api/predictions/:id', authenticate, PredictionController.updatePrediction)
     // DELETE
-    app.delete('/api/prediction/:id', authenticate, PredictionController.deletePrediction)
+    app.delete('/api/predictions/:id', authenticate, PredictionController.deletePrediction)
     
 }

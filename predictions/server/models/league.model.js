@@ -5,7 +5,7 @@ const LeagueSchema = new mongoose.Schema({
       type: String,
       required: [true, "League name is required"],
       minlength: [1, "League name must be at least 1 characters long"]
-    },
+    }, 
     user : {
       // reference the user object with the ID
       type : mongoose.Schema.Types.ObjectId,
@@ -16,13 +16,6 @@ const LeagueSchema = new mongoose.Schema({
       ref: "User"
     }]
   
-  },
+  }, { timestamps: true });
 
- 
-    //Do we need to add an empty list of league members or a league owner here? Or does that come somewhere later?
-        
-    
-{ timestamps: true }
-);
-const League = mongoose.model("League", LeagueSchema);
-module.exports = League;
+module.exports = mongoose.model("League", LeagueSchema);

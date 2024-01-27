@@ -5,7 +5,7 @@ import UserContext from '../../context/userContext';
 
 const LoginForm = (props) => {
     const {errors, setErrors} = props
-    const { saveLoggedInUser } = useContext(UserContext)
+    const { saveLoggedInUser, setScoresAndPredictions } = useContext(UserContext)
     const navigate = useNavigate()
 
     // INPUT STORAGE
@@ -44,6 +44,7 @@ const LoginForm = (props) => {
         axios.post('http://localhost:8000/api/login', loginInput, {withCredentials: true})
             .then(res => {
                 saveLoggedInUser(res.data.user)
+                setScoresAndPredictions(res.data.setScoresAndPredictions)
                 // redirect to dashboard
                 navigate('/dashboard')
             })

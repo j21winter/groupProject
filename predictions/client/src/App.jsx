@@ -28,6 +28,8 @@ function App() {
     localStorage.setItem('user', JSON.stringify(user))
   }
 
+  const [scoresAndPredictions, setScoresAndPredictions] = useState({}) 
+
   useEffect(() => {
     // save user every time a change is made to the user state in the dom
     if(user){
@@ -38,8 +40,8 @@ function App() {
 
   return (
     <>
-    
-      <UserContext.Provider value={{user, setUser, saveLoggedInUser}}>
+
+      <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions }}>
           <Routes>
               <Route path='/' element={<Homepage/>} />  
               <Route path='/login' element={<LoginAndReg />} />
