@@ -22,13 +22,13 @@ const DashboardLeft = (props) => {
     console.log("submitting")
     axios.post('http://localhost:8000/api/league/new', {...leagueInput})
             .then(res => {
-                 console.log(res.data)
-                 setLeagueInput({league_name: "", user_id: user._id})
-                 setUser(prevUser=>({...prevUser, ["leagues"]:res.data.updatedUser.leagues
+                console.log(res.data)
+                setLeagueInput({league_name: "", user_id: user._id})
+                setUser(prevUser=>({...prevUser, ["leagues"]:res.data.updatedUser.leagues
 
-                 }))
+                }))
                  // redirect to same dashboard, new league should pop up above form
-                 navigate('/dashboard')
+                navigate('/dashboard')
             })
             .catch(err=>{
               console.log(err)
@@ -45,6 +45,13 @@ const DashboardLeft = (props) => {
           [e.target.name]: e.target.value
         }))
     }
+    // Logout user
+  const handleLogout = () => {
+    setUser(null);
+    document.cookie = 'userToken=;';
+    navigate('/login');
+  };
+
   return (
 
     <>
@@ -74,7 +81,8 @@ const DashboardLeft = (props) => {
 
         </form>
         </div>
-        
+         {/* Logout button */}
+      <button onClick={handleLogout}>Logout</button>
         
     </>
   )
