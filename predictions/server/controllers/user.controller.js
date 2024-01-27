@@ -1,27 +1,38 @@
 const User = require('../models/user.model');
+const FPL_API = require('../controllers/FPL.API.controller')
 
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie-parser');
 const bcrypt = require('bcrypt')
 const secret_key = process.env.SECRET_KEY
 
+const axios = require('axios');
+
 // AUTHENTICATION
 // register user // CREATE
-const register = (req, res) => {
-    User.create(req.body)
-        .then(newUser => {
-            // generate token
-            const userToken = jwt.sign({
-                id: newUser._id
-            }, secret_key, {expiresIn: '1h'})
-            // attach token to cookie
-            res.cookie('userToken', userToken, {
-                httpOnly: true
-                })
-                .json({ msg: "Account Registered!", user: newUser });
-        })
-        .catch(err => res.status(400).json(err));
+const register = async (req, res) => {
+    try{
+        const newUser = await User.create(req.body)
+
+        const {data} = await axios.get('https://fantasy.premierleague.com/api/fixtures/')
+
+        // generate token
+        const userToken = jwt.sign({
+            id: newUser._id
+        }, secret_key, {expiresIn: '1h'})
+        // attach token to cookie
+        res.cookie('userToken', userToken, {
+            httpOnly: true
+            })
+            .json({ msg: "Account Registered!", user: newUser, scoresAndPredictions : data });
+        
+
+
+    } catch(err) {
+        console.log(err)
+        res.status(400).json(err)
     }
+}
 
 // login user
 const login = async(req, res) => {
@@ -37,15 +48,19 @@ const login = async(req, res) => {
         if(!correctPassword) {
             return res.sendStatus(400);
         }
+
+        // get scores updated
+        const {updatedUser, scoresAndPredictions} = await FPL_API.scoresAndPredictions(possibleUser._id)
+
         // create Json Web token
         const userToken = jwt.sign({
-            id: possibleUser._id
+            id: updatedUser._id
         }, secret_key );
         // add JWT to the cookie in response
         res.cookie("userToken", userToken, {
                 httpOnly: true
             })
-            .json({ msg: "Login Successful!", user: possibleUser });
+            .json({ msg: "Login Successful!", user: updatedUser, scoresAndPredictions});
     }
 
 // logout user
