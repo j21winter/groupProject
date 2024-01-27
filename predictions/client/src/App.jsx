@@ -8,8 +8,8 @@ import Dashboard from './components/userDashboard/Dashboard'
 import Leaderboard from './components/Leaderboard'
 import Predictions from './components/Predictions'
 import LeaguePage from './components/LeaguePage'
+import Homepage from './components/Homepage/HomePage'
 
-import FootballWidget from './LiveApi/FootballWidget'
 
 
 function App() {
@@ -38,10 +38,10 @@ function App() {
 
   return (
     <>
-    <FootballWidget/>
+    
       <UserContext.Provider value={{user, setUser, saveLoggedInUser}}>
           <Routes>
-              <Route path='/' element={<Navigate to="/login"/>} />  
+              <Route path='/' element={<Homepage/>} />  
               <Route path='/login' element={<LoginAndReg />} />
               <Route path='/leaderboard' element={<Leaderboard/>}/>
               <Route path='/dashboard' element={<Dashboard/>}/>

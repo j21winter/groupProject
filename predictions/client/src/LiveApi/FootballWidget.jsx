@@ -53,25 +53,25 @@ const FootballWidget = () => {
     if (error) {
         return <div className="text-center mt-4">Error: {error.message}</div>;
     }
-
+    
     
     return (
-        <div className="container mt-4">
+        <div className="container ">
             {fixtures.length === 0 &&
             <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="alert alert-info text-center">
-                        <h4>No Live Matches Yet...</h4>
-                        <p>Check back later for live match updates.</p>
+                <div className="row justify-content-center">
+                    <div className="col-md-6">
+                        <div className="alert alert-info text-center">
+                            <h4>No Live Matches Yet...</h4>
+                            <p>Check back later for live match updates.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>}
+            </div>}
             <h2 className="text-center mb-4">Football Fixtures</h2>
             <div className="text-center ">
-                
-    <h5 className="bg-warning" style={{ display: 'inline-block' }}>LIVE</h5></div>
+                <h5 className="bg-warning" style={{ display: 'inline-block' }}>LIVE</h5>
+            </div>
             {fixtures.map((game, index) => (
                 <div key={index} className="card mb-3 text-center">
                     <div className="card-header">
@@ -100,9 +100,7 @@ const FootballWidget = () => {
                     </div>
                 </div>
             ))}
-
         </div>
-
     );
 };
 
