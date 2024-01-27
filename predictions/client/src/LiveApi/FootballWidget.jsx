@@ -22,9 +22,9 @@ const FootballWidget = () => {
             method: 'GET',
             url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
             params: {
-                date: '2024-01-20',//'2024-01-20'// // Fetch fixtures for today's date later 
+                date: '2024-01-20',//todaysDate() // Fetch fixtures for today's date later 
                 league: '39',
-                season: '2023'
+                season: '2023'//need to change date each seson
             },
             headers: {
                 'X-RapidAPI-Key': '6556f401fdmsh659a29b0513d60ap1283f9jsn9b7b221696b6',
