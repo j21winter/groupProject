@@ -1,17 +1,26 @@
 const League = require('../models/league.model')
+const User = require('../models/user.model')
 
 // CREATE
-const addLeague = (req, res) => {
-    League.create(req.body)
-        .then( newLeague => {
-            res.status(200).json(newLeague)
-        })
-        .catch(err => {
-            res.status(400).json(err)
-        })
+const addLeague = async(req, res) => {
+    try{
+        console.log(req.body)
+        const newLeague= await League.create(req.body)
+        const updatedUser= await User.findOneAndUpdate(
+            { _id: req.body.user_id },
+            { 
+                $push: { leagues: newLeague }, // push to the history array
+            },
+            { new: true, runValidators: true }
+        ).populate("leagues")
+            res.json({newLeague, updatedUser})
+    }catch(error){ 
+        console.log(error)
+        // res.json(error)
+    }
 }
 
-// READ
+// READ ONE by League id
 const findLeague = (req, res) => {
     League.findById(req.params.id)
         .then( foundLeague => {
@@ -20,6 +29,19 @@ const findLeague = (req, res) => {
         .catch(err => {
             res.status(400).json(err)
         })
+}
+
+// READ ALL
+const findAllLeagues=(req, res)=> {
+    League.find()
+        .then(allLeagues => {
+            console.log("LEAGUES", allLeagues)
+            res.status(200).json({allLeagues})
+        })
+        .catch(err => {
+            res.status(400).json(err)
+        });
+
 }
 // UPDATE
 const updateLeague = (req, res) => {
@@ -51,5 +73,6 @@ module.exports = {
     addLeague, 
     findLeague, 
     updateLeague, 
-    deleteLeague
+    deleteLeague,
+    findAllLeagues
 }

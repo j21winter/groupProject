@@ -45,8 +45,8 @@ const LoginForm = (props) => {
             .then(res => {
                 saveLoggedInUser(res.data.user)
                 setScoresAndPredictions(res.data.setScoresAndPredictions)
-                // redirect to homepage
-                navigate('/home')
+                // redirect to dashboard
+                navigate('/dashboard')
             })
             .catch(err => {
                 // Add errors for display
