@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const RegForm = (props) => {
     const {errors, setErrors} = props
-    const { saveLoggedInUser } = useContext(UserContext)
+    const { saveLoggedInUser, setScoresAndPredictions } = useContext(UserContext)
     const navigate = useNavigate();
 
     // INPUT STORAGE
@@ -45,11 +45,17 @@ const RegForm = (props) => {
         // make API call to register
         axios.post('http://localhost:8000/api/register', regInput, {withCredentials: true})
             .then(res => {
+                // res.data.user = updated user with points
+                console.log("back in reg form")
                 saveLoggedInUser(res.data.user)
+                // res.data.scoresAndPredictions = scores and predictions // add to state somehow
+                setScoresAndPredictions(res.data.setScoresAndPredictions)
                 // redirect to homepage
+                console.log('redirecting to the homepage')
                 navigate('/home') 
             })
             .catch(err => {
+                console.log(err)
                 setErrors( prevErrors => {
                     const formErrors = err.response.data.errors
                     const updatedErrors = {...prevErrors}

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// make sure we only save one prediction per game... need validations function
+
 const PredictionSchema = new mongoose.Schema({
     user : {
         // reference the user object with the ID
@@ -7,10 +9,12 @@ const PredictionSchema = new mongoose.Schema({
         ref: "users"
     },
     gameWeekId : {
+        // reference the game week, useful for searching games per game week
         type: Number, 
         required : [true , "Game week ID is required"]
     }, 
     gameId : {
+        // reference the game
         type: Number, 
         required : [true , "Game ID is required"]
     },

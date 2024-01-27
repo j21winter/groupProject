@@ -50,14 +50,15 @@ const UserSchema = new mongoose.Schema({
     // hold accumulative points for the user
     points : {
         type : Number,
-        min : 0
+        min : 0, 
+        default: 0
     }, 
     // hold all predictions in value prediction object
-    predictions : {
+    predictions : [{
         // reference the prediciton object with the object ID
         type : mongoose.Schema.Types.ObjectId, 
-        ref : "predictions"
-    }
+        ref : "Predictions"
+    }]
     //Do we need to add leagues as well?
     //Ex:
     //leagues : {

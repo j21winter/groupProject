@@ -5,11 +5,21 @@ const LeagueSchema = new mongoose.Schema({
       type: String,
       required: [true, "League name is required"],
       minlength: [1, "League name must be at least 1 characters long"]
-    }},
+    }, 
 
- 
-    //Do we need to add an empty list of league members or a league owner here? Or does that come somewhere later?
-        
+    admin: {
+      type : mongoose.Schema.Types.ObjectId, 
+      ref : "users" 
+    }, 
+
+    members: [
+      {type : mongoose.Schema.Types.ObjectId, 
+      ref : "users" }
+    ]
+
+  },
+
+    
     
 { timestamps: true }
 );
