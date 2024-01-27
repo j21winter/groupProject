@@ -22,3 +22,20 @@ require('./routes/league.routes')(app)
 
 
 app.listen(port, () => console.log(`listening on port: ${port}`));
+
+// const fetchTeamIdAndName = async () => {
+//     try {
+//         const response = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static');
+//         const teams = response.data.teams;
+//         const teamInfo = teams.map(team => ({ id: team.id, name: team.name }));
+//         console.log(teamInfo);
+//         return teamInfo;
+//     } catch (error) {
+//         console.error('Error fetching team ID and name:', error);
+//         return null;
+//     }
+// };
+// fetchTeamIdAndName()
+
+
+

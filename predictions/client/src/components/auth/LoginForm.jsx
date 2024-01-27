@@ -86,7 +86,7 @@ const LoginForm = (props) => {
         return isValid
     }
 
-  return (
+return (
     <>
         <div id='login' className='card p-0 m-2 w-100 rounded rounded 2 overflow-hidden h-auto border-0 ' style={{ backgroundColor: "#26637b"}}>
 
