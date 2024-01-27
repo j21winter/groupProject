@@ -5,6 +5,8 @@ import UserContext from './context/userContext'
 
 import LoginAndReg from './components/auth/LoginAndReg'
 
+import FootballWidget from './LiveApi/FootballWidget'
+
 
 function App() {
 
@@ -32,6 +34,7 @@ function App() {
 
   return (
     <>
+    <FootballWidget/>
       <UserContext.Provider value={{user, setUser, saveLoggedInUser}}>
           <Routes>
               <Route path='/' element={<Navigate to="/login"/>} />  
