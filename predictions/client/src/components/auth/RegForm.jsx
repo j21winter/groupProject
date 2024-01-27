@@ -95,7 +95,7 @@ const RegForm = (props) => {
                 console.log("back in reg form")
                 saveLoggedInUser(res.data.user)
                 // res.data.scoresAndPredictions = scores and predictions // add to state somehow
-                setScoresAndPredictions(res.data.setScoresAndPredictions)
+                setScoresAndPredictions(res.data.scoresAndPredictions)
                 // redirect to dashboard
                 navigate('/dashboard') 
             })
