@@ -15,7 +15,7 @@ const DashboardLeft = (props) => {
     },
     
   })
-  const [leagueInput, setLeagueInput]=useState({league_name: "", user_id: user._id})
+  const [leagueInput, setLeagueInput]=useState({league_name: "", user: user._id})
 
   const handleLeagueSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ const DashboardLeft = (props) => {
     axios.post('http://localhost:8000/api/league/new', {...leagueInput})
             .then(res => {
                 console.log(res.data)
-                setLeagueInput({league_name: "", user_id: user._id})
+                setLeagueInput({league_name: "", user: user._id})
                 setUser(prevUser=>({...prevUser, ["leagues"]:res.data.updatedUser.leagues
 
                 }))
