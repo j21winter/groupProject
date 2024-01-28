@@ -27,7 +27,7 @@ const LeaguePage = (props) => {
         {/* will want to display all league members by mapping through */}
           <div>
           {league.user==user._id ?
-          (<p>Edit Delete</p>): (<p>Join League</p>)
+          (<p><Link to={`/update/${league._id}`}>Edit</Link> Delete</p>): (<p>Join League</p>)
         }
         </div>
     </div>

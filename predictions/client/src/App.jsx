@@ -9,6 +9,7 @@ import Dashboard from './components/userDashboard/Dashboard'
 import Predictions from './components/Predictions'
 import LeaguePage from './components/LeaguePage'
 import Homepage from './components/Homepage/HomePage'
+import UpdateLeague from './components/UpdateLeague'
 
 
 
@@ -76,6 +77,7 @@ function App() {
               <Route path='/dashboard' element={<Dashboard/>}/>
               <Route path='/predictions' element={<Predictions/>}/>
               <Route path='/oneLeague/:id' element={<LeaguePage/>}/>
+              <Route path='/update/:id' element={<UpdateLeague/>}/>
           </Routes>
       </UserContext.Provider>
       
