@@ -9,12 +9,11 @@ const Dashboard = () => {
   
   return (
     <>
-        <div className="row mx-auto" >
+        <div className="row mx-auto p-5" >
 
             <div className='col'><DashboardLeft /></div>
             <div className='col'><DashboardMid></DashboardMid></div>
             <div className='col'><DashboardRight></DashboardRight></div>
-            {/* having trouble with the axios call to map through leagues  */}
             
         </div>
     </>
