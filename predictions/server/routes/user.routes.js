@@ -8,7 +8,9 @@ module.exports = (app) => {
     
     // PROTECTED ROUTES 
     app.post('/api/logout',  UserController.logout)
-    // READ
+    //READ ALL
+    app.get('/api/users', UserController.findAll)
+    // READ ONE
     app.get('/api/user/:id',  UserController.findOne)
     // UPDATE
     app.patch('/api/user/:id',  UserController.updateUser)

@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
+import {useState, useEffect} from 'react'
+import axios from 'axios'
+import {useParams, Link} from 'react-router-dom'
 
-const LeaguePage = () => {
-  const { id } = useParams();
-  const [league, setLeague] = useState({});
+const LeaguePage = (props) => {
+  const { id } = useParams()
+  const [league, setLeague]=useState({})
 
+  // api call to grab all league members
   useEffect(() => {
-    // Make an API call to get the details of the league by ID
-    axios
-      .get(`http://localhost:8000/api/league/${id}`)
-      .then((res) => {
-        setLeague(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
+    axios.get(`http://localhost:8000/api/league/${id}`)
+        .then(res => {
+            console.log(res)
+            console.log(res.data)
+            setLeague(res.data)
+        })
+        .catch(err => console.log(err))
+}, [])
 
+    
   return (
     <div>
-      <Link to={'/dashboard'}>Dashboard</Link>
-      <h1>{league.league_name || 'Loading...'}</h1>
-      {/* Display other league details as needed */}
+        <Link to={'/dashboard'}>Dashboard</Link>
+        <h1>{league.league_name}</h1>
+        {/* will want to display all league members by mapping through */}
     </div>
   );
 };

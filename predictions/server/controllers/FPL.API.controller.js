@@ -130,6 +130,8 @@ const points = (data) => {
         } else {
             prediction["pointsLog"]['bonus'] = 0
         }
+
+        prediction["pointsLog"]["totalPoints"] = pointSum
     }
 
     return {pointSum, prediction}
@@ -154,18 +156,6 @@ const scoresAndPredictions = async(userID) => {
         console.log(err)
     }
 }
-
-// const getTeamNames = async() => {
-//     const map = {}
-//     // get team names: 
-//     const allData = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/')
-    
-//     for(let team of allData.data.teams){
-//         map[team.id] = team.name
-//     }
-
-//     return map
-// }
 
 
 module.exports = {

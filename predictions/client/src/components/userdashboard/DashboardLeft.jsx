@@ -15,7 +15,7 @@ const DashboardLeft = (props) => {
     },
     
   })
-  const [leagueInput, setLeagueInput]=useState({league_name: "", user_id: user._id})
+  const [leagueInput, setLeagueInput]=useState({league_name: "", user: user._id})
 
   const handleLeagueSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ const DashboardLeft = (props) => {
     axios.post('http://localhost:8000/api/league/new', {...leagueInput})
             .then(res => {
                 console.log(res.data)
-                setLeagueInput({league_name: "", user_id: user._id})
+                setLeagueInput({league_name: "", user: user._id})
                 setUser(prevUser=>({...prevUser, ["leagues"]:res.data.updatedUser.leagues
 
                 }))
@@ -55,15 +55,13 @@ const DashboardLeft = (props) => {
   return (
 
     <>
-        {/* Links to leaderboard and predictions pages */}
-        <Link to ={"/leaderboard"}>Global Leaderboard</Link>
-        <br />
-        <Link to ={"/predictions"}>Your Predictions</Link>
+        {/* link to predictions page */}
+        <h3><Link to ={"/predictions"}>Your Predictions</Link></h3>
 
         {/* display users leagues */}
         <div className="yourLeagues">
-          <h5>Your Leagues</h5>
-          {/* will need to map through the users leagues and display */}
+          <h3>Your Leagues</h3>
+          {/* will need to map through the users leagues and display-may need to filter first by user._id */}
         </div>
 
         <div className="leagueForm">

@@ -7,7 +7,7 @@ const addLeague = async(req, res) => {
         console.log(req.body)
         const newLeague= await League.create(req.body)
         const updatedUser= await User.findOneAndUpdate(
-            { _id: req.body.user_id },
+            { _id: req.body.user },
             { 
                 $push: { leagues: newLeague }, // push to the history array
             },
