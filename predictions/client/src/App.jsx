@@ -6,7 +6,6 @@ import UserContext from './context/userContext'
 
 import LoginAndReg from './components/auth/LoginAndReg'
 import Dashboard from './components/userDashboard/Dashboard'
-import Leaderboard from './components/Leaderboard'
 import Predictions from './components/Predictions'
 import LeaguePage from './components/LeaguePage'
 import Homepage from './components/Homepage/HomePage'
@@ -74,7 +73,6 @@ function App() {
           <Routes>
               <Route path='/' element={<Homepage/>} />  
               <Route path='/login' element={<LoginAndReg />} />
-              <Route path='/leaderboard' element={<Leaderboard/>}/>
               <Route path='/dashboard' element={<Dashboard/>}/>
               <Route path='/predictions' element={<Predictions/>}/>
               <Route path='/oneLeague/:id' element={<LeaguePage/>}/>

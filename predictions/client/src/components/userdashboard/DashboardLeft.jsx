@@ -55,15 +55,13 @@ const DashboardLeft = (props) => {
   return (
 
     <>
-        {/* Links to leaderboard and predictions pages */}
-        <Link to ={"/leaderboard"}>Global Leaderboard</Link>
-        <br />
-        <Link to ={"/predictions"}>Your Predictions</Link>
+        {/* link to predictions page */}
+        <h3><Link to ={"/predictions"}>Your Predictions</Link></h3>
 
         {/* display users leagues */}
         <div className="yourLeagues">
-          <h5>Your Leagues</h5>
-          {/* will need to map through the users leagues and display */}
+          <h3>Your Leagues</h3>
+          {/* will need to map through the users leagues and display-may need to filter first by user._id */}
         </div>
 
         <div className="leagueForm">
