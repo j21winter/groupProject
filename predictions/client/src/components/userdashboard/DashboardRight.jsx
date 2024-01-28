@@ -17,7 +17,10 @@ const DashboardRight = () => {
     axios.get("http://localhost:8000/api/allLeagues")
     .then(res=>{
         console.log(res)
-        setLeagues(res.data.allLeagues)
+        setLeagues(res.data.allLeagues.filter(league=> league.user!=user._id))
+        
+        
+        
         
     })
     .catch(err=>{
@@ -25,8 +28,9 @@ const DashboardRight = () => {
     })
 }, []
 )
-// console.log("LEAGUES", leagues)
-// const leaguesToJoin=leagues.filter(league=>league.user._id!=user._id)
+
+console.log("LEAGUES", leagues)
+// const leaguesToJoin=leagues.filter(league=>league.user!=user._id)
 
   return (
     <>
@@ -37,8 +41,6 @@ const DashboardRight = () => {
             <div key={league._id}>
                   
                     <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
-
-                  
             
             </div>
       ))}
