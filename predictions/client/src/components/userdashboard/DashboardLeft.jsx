@@ -7,16 +7,29 @@ import UserContext from '../../context/userContext';
 const DashboardLeft = (props) => {
   const navigate=useNavigate()
   const { user, setUser } = useContext(UserContext)
-  //need to grab errors object for form
-  // Errors
+  const [leagues, setLeagues]=useState([])
   const [errors, setErrors] = useState({
     leagues : {
       league_name: ""
     },
     
   })
+  //grab all leagues
+  useEffect(()=>{
+    axios.get("http://localhost:8000/api/allLeagues")
+    .then(res=>{
+        console.log(res)
+        setLeagues(res.data.allLeagues.filter(league=> league.user==user._id))
+        
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}, []
+)
   const [leagueInput, setLeagueInput]=useState({league_name: "", user: user._id})
 
+  //submitting league form
   const handleLeagueSubmit = (e) => {
     e.preventDefault();
     console.log("submitting")
@@ -60,12 +73,18 @@ const DashboardLeft = (props) => {
 
         {/* display users leagues */}
         <div className="yourLeagues">
-          <h3>Your Leagues</h3>
-          {/* will need to map through the users leagues and display-may need to filter first by user._id */}
+          <h3>Your Leagues</h3>{
+          leagues.map((league)=>(
+            <div key={league._id}>
+                  
+                    <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
+            
+            </div>
+           ))}
         </div>
 
         <div className="leagueForm">
-          <h5>Create a League</h5>
+          <h3>Create a League</h3>
           {/* League Form */}
         <form onSubmit={(e) => handleLeagueSubmit(e)}>
 {/* will possibly need user id as hidden input for owner */}
