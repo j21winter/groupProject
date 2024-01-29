@@ -68,39 +68,43 @@ const handleJoinLeague = () => {
 
   return (
     <div>
-      <Link to={'/dashboard'}>Dashboard</Link>
-      <h1>{league.league_name}</h1>
-      <h3>Members</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Points</th>
-          </tr>
-        </thead>
-      <tbody>
-          {membersDetails.map((member, index) => (
-            <tr key={index}>
-              <td>{member.firstName} {member.lastName}</td> 
-              <td>{member.points}</td>
+      <div className="container text-center">
+        <Link to={'/dashboard'}>Dashboard</Link>
+        <h1>{league.league_name}</h1>
+        <h3>Members</h3>
+        <table className="table table-striped text-center">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Points</th>
             </tr>
-          ))}
-      </tbody>
-    </table>
-    <div>
-      {league.user === user._id ? (
-          <>
-              <p><Link to={`/update/${league._id}`}>Edit</Link></p>
-              <button onClick={(e) => handleDelete(league._id)}>Delete</button>
-          </>
-      ) : ''}
-      {
-        (
-          league.members && league.members.includes(user._id) || league.user === user._id ?
-          "You are a MEMBER":
-              <button onClick={(e) => handleJoinLeague()}>Join League</button>
-      )}
-  </div>
+          </thead>
+        <tbody>
+            {membersDetails.map((member, index) => (
+              <tr key={index}>
+                <td>{member.firstName} {member.lastName}</td> 
+                <td>{member.points}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+      <div>
+        {league.user === user._id ? (
+            <>
+                <p><Link to={`/update/${league._id}`}>Edit</Link></p>
+                <button className="btn btn-outline-primary" onClick={(e) => handleDelete(league._id)}>Delete</button>
+              
+                <br />
+            </>
+        ) : ''}
+        {
+          (
+            league.members && league.members.includes(user._id) || league.user === user._id ?
+            "You are a MEMBER":
+                <button className="btn btn-outline-primary" onClick={(e) => handleJoinLeague()}>Join League</button>
+        )}
+      </div>
+      </div>
   </div>
 
   )
