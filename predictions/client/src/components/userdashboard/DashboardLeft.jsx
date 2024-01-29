@@ -14,19 +14,24 @@ const DashboardLeft = (props) => {
     },
     
   })
-  //grab all leagues
-  useEffect(()=>{
+
+  //Grab all leagues function
+  const All_Leagues = () => {
     axios.get("http://localhost:8000/api/allLeagues")
-    .then(res=>{
-        console.log(res)
-        setLeagues(res.data.allLeagues.filter(league=> league.user==user._id))
-        
+    .then(res => {
+        console.log(res);
+        setUsersLeagues(res.data.allLeagues.filter(league => league.user === user._id));
     })
-    .catch(err=>{
-        console.log(err)
-    })
-}, []
-)
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+  // Grab all leagues when render
+  useEffect(() => {
+      All_Leagues();
+  }, []);
+
   const [leagueInput, setLeagueInput]=useState({league_name: "", user: user._id})
 
   //submitting league form
@@ -51,6 +56,7 @@ const DashboardLeft = (props) => {
 
 
                  // redirect to same dashboard, new league should pop up above form
+                All_Leagues()
                 navigate('/dashboard')
             })
             .catch(err=>{

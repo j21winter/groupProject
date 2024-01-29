@@ -26,8 +26,8 @@ const UpdateLeague = (props) => {
     const handleSubmit=(e)=>{
         console.log("LEAGUE NAME", leagueName)
         e.preventDefault();
-    //call axios to patch just one league and update
-        axios.patch(`http://localhost:8000/api/league/${id}`, { league_name: leagueName})
+        
+        axios.patch(`http://localhost:8000/api/league/${id}`, {leagueName})
             .then(res => {
                 console.log("RES", res);
 
@@ -35,6 +35,7 @@ const UpdateLeague = (props) => {
             })
             .catch(err => {
                 console.log("ERR", err)
+
                 setErrors(err.response.data.error.errors);
                 console.log("error1", errors)
             })

@@ -5,8 +5,9 @@ import UserContext from '../../context/userContext';
 
 export const DashboardMid = () => {
   const {user, setUser}=useContext(UserContext)
+  const {teamNames, setteamNames} = useContext(UserContext)
   const [users, setUsers]=useState([])
-  
+  // console.log(teamNames)
   {/* api call to get all users*/}
   useEffect(()=>{
     console.log("made api call")
@@ -31,14 +32,16 @@ let num=0
       <div className="container">
         <h3>Global Leaderboard</h3>
         {
-          users.slice(0,5).map((user)=>(
-            <div key={user.points}>
-              <p>{num+=1}. {user.firstName} {user.points} points</p>
-            </div>
-          ))
+
+            [...users].sort((a, b) => b.points - a.points) // Sort users by points in descending order
+                .slice(0, 5) // Get only the first 5 users
+                  .map((user, index) => (
+                    <div key={user._id}>
+                      <p>{index + 1}. {user.firstName} {user.points} points</p>
+                    </div>
+              ))
+
         }
-        {/* still need to figure out how to sort by most points */}
-        
         <h3>Your points</h3>
         <p>{user.points}</p>
 
