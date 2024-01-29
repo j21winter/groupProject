@@ -14,9 +14,9 @@ const addLeague = async(req, res) => {
             { new: true, runValidators: true }
         ).populate("leagues")
             res.json({newLeague, updatedUser})
-    }catch(error){ 
-        console.log(error)
-        // res.json(error)
+    }catch(err){ 
+        console.log(err)
+        res.status(400).json(err)
     }
 }
 

@@ -7,7 +7,8 @@ import UserContext from '../../context/userContext';
 const DashboardLeft = (props) => {
   const navigate=useNavigate()
   const { user, setUser } = useContext(UserContext)
-  const [leagues, setLeagues]=useState([])
+  const {leagues, setLeagues}=useContext(UserContext)
+  const [usersLeagues, setUsersLeagues]=useState([])
   const [errors, setErrors] = useState({
     leagues : {
       league_name: ""
@@ -19,7 +20,7 @@ const DashboardLeft = (props) => {
     axios.get("http://localhost:8000/api/allLeagues")
     .then(res=>{
         console.log(res)
-        setLeagues(res.data.allLeagues.filter(league=> league.user==user._id))
+        setUsersLeagues(res.data.allLeagues.filter(league=> league.user==user._id))
         
     })
     .catch(err=>{
@@ -35,16 +36,24 @@ const DashboardLeft = (props) => {
     console.log("submitting")
     axios.post('http://localhost:8000/api/league/new', {...leagueInput})
             .then(res => {
-                console.log(res.data)
+                console.log("RES", res.data)
                 setLeagueInput({league_name: "", user: user._id})
                 setUser(prevUser=>({...prevUser, ["leagues"]:res.data.updatedUser.leagues
-
                 }))
+                //need to reset users leagues here to include the newest one! and updates all leagues.
+                //want to have users leagues include the newest one without reset
+                setErrors({
+                  leagues : {
+                    league_name: ""
+                  },
+                  
+                })
                  // redirect to same dashboard, new league should pop up above form
                 navigate('/dashboard')
             })
             .catch(err=>{
-              console.log(err)
+              console.log("ERR", err)
+              console.log(err.response.data.errors)
               setErrors(err.response.data.errors);
               console.log("error1", errors)
           }) 
@@ -74,7 +83,7 @@ const DashboardLeft = (props) => {
         {/* display users leagues */}
         <div className="yourLeagues">
           <h3>Your Leagues</h3>{
-          leagues.map((league)=>(
+          usersLeagues.map((league)=>(
             <div key={league._id}>
                   
                     <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
@@ -94,7 +103,7 @@ const DashboardLeft = (props) => {
             <input type="text" name="league_name"  value={leagueInput.league_name} onChange={(e)=>handleChange(e)}/>
             <button>Submit</button>
           </div>
-          {errors.league_name ? <p className='text-white text-center'>{errors.league_name.message}</p> : ""}
+          {errors.league_name ? <p style={{color:"red"}}>{errors.league_name.message}</p> : ""}
 
         </form>
         </div>
