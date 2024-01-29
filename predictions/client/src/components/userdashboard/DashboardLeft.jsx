@@ -51,6 +51,12 @@ const DashboardLeft = (props) => {
         .then((res) => {
           setLeagues(res.data.allLeagues.filter((league) => league.user == user._id));
         })
+        setErrors({
+          leagues : {
+            league_name: ""
+          },
+          
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -75,19 +81,12 @@ const DashboardLeft = (props) => {
           [e.target.name]: e.target.value
         }))
     }
-    // Logout user
-  const handleLogout = () => {
-    setUser(null);
-    document.cookie = 'userToken=;';
-    navigate('/login');
-  };
+
 
   return (
 
     <>
-        {/* link to predictions page */}
         
-        <h3><Link to ={"/predictions"}>Your Predictions</Link></h3>
 
         {/* display users leagues */}
         <div className="yourLeagues">
@@ -104,20 +103,18 @@ const DashboardLeft = (props) => {
           <h3>Create a League</h3>
           {/* League Form */}
         <form onSubmit={(e) => handleLeagueSubmit(e)}>
-{/* will possibly need user id as hidden input for owner */}
-          <div className="mb-3">
+          <div className="mb-3 ">
             
             <label >League Name: </label>
             <input type="text" name="league_name"  value={leagueInput.league_name} onChange={(e)=>handleChange(e)}
             className="form-control"/>
-            <button type="submit" className="btn btn-success">Submit</button>
+            <button type="submit" className="btn btn-success ">Submit</button>
           </div>
-          {errors.league_name ? <p className='text-white text-center'>{errors.league_name.message}</p> : ""}
+          {errors.league_name ? <p style={{color:"red"}}>{errors.league_name.message}</p> : ""}
 
         </form>
         </div>
-         {/* Logout button */}
-      <button onClick={handleLogout} className="btn btn-danger">Logout</button>
+         
         
     </>
   )

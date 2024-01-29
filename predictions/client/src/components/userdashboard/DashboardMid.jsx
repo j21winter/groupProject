@@ -106,10 +106,17 @@ let num=0
                         <button onClick={goToNextWeek} disabled={currentGameWeek === gameWeeks.length - 1}>Next Week</button>
                     </div>
                 )}
-            </div>
+           </div>
+
         <div>
           <h3>Your points</h3>
           <p>{user.points}</p>
+        </div>
+        <div>
+          {/* link to predictions page */}
+        
+        <h3><Link to ={"/predictions"}>Your Predictions</Link></h3>
+
         </div>
 
       </div>
