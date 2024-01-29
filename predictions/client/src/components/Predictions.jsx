@@ -78,7 +78,7 @@ const submitPredictions = (e) => {
         <div className="header d-flex justify-content-between align-items-center ">
           <div>
             <p>Your Predictions</p>
-            <button onClick={(e) => submitPredictions(e)}>Submit your Predictions</button>
+            <button className="btn btn-outline-primary" onClick={(e) => submitPredictions(e)}>Submit your Predictions</button>
           </div>
           <div className='text-center'>
             <p>Total Points</p>
