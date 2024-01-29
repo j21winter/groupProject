@@ -14,13 +14,14 @@ const DashboardLeft = (props) => {
     },
     
   })
+  console.log("all leagues" + leagues)
 
   //Grab all leagues function
   const All_Leagues = () => {
     axios.get("http://localhost:8000/api/allLeagues")
     .then(res => {
         console.log(res);
-        setUsersLeagues(res.data.allLeagues.filter(league => league.user === user._id));
+        setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
     })
     .catch(err => {
         console.log(err);
@@ -93,7 +94,6 @@ const DashboardLeft = (props) => {
           <h3>Your Leagues</h3>{
           leagues.map((league)=>(
             <div key={league._id}>
-                  
                     <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
             
             </div>

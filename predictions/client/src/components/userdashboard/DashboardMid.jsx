@@ -6,8 +6,22 @@ import UserContext from '../../context/userContext';
 export const DashboardMid = () => {
   const {user, setUser}=useContext(UserContext)
   const {teamNames, setteamNames} = useContext(UserContext)
+  const {scoresAndPredictions, setscoresAndPredictions} = useContext(UserContext)
   const [users, setUsers]=useState([])
+  const [upcominggames, setUpcominggames] = useState([])
   // console.log(teamNames)
+  console.log(scoresAndPredictions)
+  console.log("upgames:>>>>" + upcominggames)
+
+  const checkfuturegames = () => {
+    const upcomingGamesNotFinished = scoresAndPredictions.filter(upgame => {
+      // Check if the game is not finished
+      return !upgame.gameWeekInfo.finished;
+    });
+    // Set the filtered upcoming games in state
+    setUpcominggames(upcomingGamesNotFinished);
+  };
+
   {/* api call to get all users*/}
   useEffect(()=>{
     console.log("made api call")
@@ -15,7 +29,7 @@ export const DashboardMid = () => {
     .then(res=>{
         // console.log("RESULTS", res)
         setUsers(res.data.allUsers)
-        
+        checkfuturegames()
     })
     .catch(err=>{
         console.log(err)
@@ -42,8 +56,14 @@ let num=0
               ))
 
         }
-        <h3>Your points</h3>
-        <p>{user.points}</p>
+        <div>
+          <h2>Future Games</h2>
+
+        </div>
+        <div>
+          <h3>Your points</h3>
+          <p>{user.points}</p>
+        </div>
 
       </div>
 

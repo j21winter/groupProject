@@ -16,8 +16,10 @@ module.exports = (app) => {
     // READ All Leagues where user id=:id
     // app.get('/api/allLeagues/:id')
 
+    // UPDATE NAME
+    app.patch('/api/league/info/:id', LeagueController.updateLeagueinfo);
 
-    // UPDATE
+    // UPDATE to add members
     app.patch('/api/league/:id', LeagueController.updateLeague)
     // DELETE
     app.delete('/api/league/:id', LeagueController.deleteLeague)

@@ -42,7 +42,7 @@ const findAllLeagues=(req, res)=> {
         });
 
 }
-// UPDATE
+// UPDATE to add members
 const updateLeague = (req, res) => {
     League.findByIdAndUpdate(
         {_id: req.params.id}, 
@@ -55,6 +55,18 @@ const updateLeague = (req, res) => {
     .catch(err => res.status(400).json({ message: "something went wrong in update method", error: err }))
 };
 
+// UPDATE to add members
+const updateLeagueinfo = (req, res) => {
+    League.findByIdAndUpdate(
+        { _id: req.params.id }, 
+        { league_name: req.body.leagueName }, // Update league_name instead of members
+        { new: true, runValidators: true }
+    )
+    .then(updatedLeague => {
+        res.status(200).json(updatedLeague);
+    })
+    .catch(err => res.status(400).json({ message: "something went wrong in update method", error: err }));
+};
 
 // DELETE
 const deleteLeague = (req, res) => {
@@ -76,5 +88,6 @@ module.exports = {
     findLeague, 
     updateLeague, 
     deleteLeague,
-    findAllLeagues
+    findAllLeagues,
+    updateLeagueinfo
 }
