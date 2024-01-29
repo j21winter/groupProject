@@ -6,7 +6,8 @@ import UserContext from '../../context/userContext';
 const DashboardRight = () => {
 
   const { user, setUser } = useContext(UserContext)
-  const [leagues, setLeagues]=useState([])
+  const {leagues, setLeagues}=useContext(UserContext)
+  const [notUsersLeagues, setNotUsersLeagues]=useState([])
 // axios call to get available leagues links for leagues user can join 
 
   
@@ -17,11 +18,7 @@ const DashboardRight = () => {
     axios.get("http://localhost:8000/api/allLeagues")
     .then(res=>{
         console.log(res)
-        setLeagues(res.data.allLeagues.filter(league=> league.user!=user._id))
-        
-        
-        
-        
+        setNotUsersLeagues(res.data.allLeagues.filter(league=> league.user!=user._id))
     })
     .catch(err=>{
         console.log(err)
@@ -37,7 +34,7 @@ console.log("LEAGUES", leagues)
     <div>
     <h3>Join a League </h3>
       {
-          leagues.map((league)=>(
+          notUsersLeagues.map((league)=>(
             <div key={league._id}>
                   
                     <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
