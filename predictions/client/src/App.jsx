@@ -6,10 +6,10 @@ import UserContext from './context/userContext'
 
 import LoginAndReg from './components/auth/LoginAndReg'
 import Dashboard from './components/userDashboard/Dashboard'
-import Leaderboard from './components/Leaderboard'
 import Predictions from './components/Predictions'
 import LeaguePage from './components/LeaguePage'
 import Homepage from './components/Homepage/HomePage'
+import UpdateLeague from './components/UpdateLeague'
 
 
 
@@ -22,6 +22,7 @@ function App() {
   // state to store info on our user
   const [user, setUser] = useState(storedUser)
   const [scoresAndPredictions, setScoresAndPredictions] = useState(storedScoresAndPredictions) 
+  const [leagues,setLeagues]=useState([])
   const [teamNames, setTeamNames] = useState(
     {
       '1': 'Arsenal',
@@ -70,14 +71,14 @@ function App() {
   return (
     <>
 
-      <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions, teamNames }}>
+      <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions, teamNames, leagues, setLeagues }}>
           <Routes>
               <Route path='/' element={<Homepage/>} />  
               <Route path='/login' element={<LoginAndReg />} />
-              <Route path='/leaderboard' element={<Leaderboard/>}/>
               <Route path='/dashboard' element={<Dashboard/>}/>
               <Route path='/predictions' element={<Predictions/>}/>
               <Route path='/oneLeague/:id' element={<LeaguePage/>}/>
+              <Route path='/update/:id' element={<UpdateLeague/>}/>
           </Routes>
       </UserContext.Provider>
       

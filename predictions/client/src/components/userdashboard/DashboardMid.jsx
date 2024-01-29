@@ -1,17 +1,50 @@
-import React from 'react'
+import {useState, useEffect, useContext} from 'react'
+import axios from 'axios'
+import {useParams, Link} from 'react-router-dom'
+import UserContext from '../../context/userContext';
 
 export const DashboardMid = () => {
- {/* api calls to get info from Games
-        axios call to get your points */}
+  const {user, setUser}=useContext(UserContext)
+  const [users, setUsers]=useState([])
+  
+  {/* api call to get all users*/}
+  useEffect(()=>{
+    console.log("made api call")
+    axios.get("http://localhost:8000/api/users")
+    .then(res=>{
+        // console.log("RESULTS", res)
+        setUsers(res.data.allUsers)
         
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}, []
+)
+
+//number to display on leaderboard
+let num=0
+
 
   return (
-    <div>
-        <p>Recent Games</p>
-        <p>Upcoming Games</p>
-        <p>Your points</p>
+    <>
+      <div className="container">
+        <h3>Global Leaderboard</h3>
+        {
+          users.map((user)=>(
+            <div key={user.points}>
+              <p>{num+=1}. {user.firstName} {user.points} points</p>
+            </div>
+          ))
+        }
+        {/* still need to figure out how to sort by most points */}
+        
+        <h3>Your points</h3>
+        <p>{user.points}</p>
 
-    </div>
+      </div>
+
+    </>
   )
 }
 

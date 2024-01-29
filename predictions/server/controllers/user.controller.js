@@ -70,7 +70,7 @@ const logout = (req, res) => {
 }
 
 
-// READ
+// READ ONE
 const findOne = (req, res) => {
     User.findOne({_id : req.params.id}).populate("predictions")
         .then(user => res.status(200).json(user))
@@ -81,6 +81,15 @@ const isEmailUnique = async (email, userId)=> {
     const query = {email, _id : { $ne : userId }};
     let foundUser = await User.findOne(query);
     return !foundUser ;
+}
+
+//READ ALL
+const findAll=(req, res)=> {
+    User.find()
+        .then(allUsers => {
+            console.log("LEAGUES", allUsers)
+            res.status(200).json({allUsers})})
+        .catch(err => res.status(400).json(err))
 }
 
 // UPDATE
@@ -135,5 +144,6 @@ module.exports = {
     logout, 
     findOne, 
     updateUser,
-    deleteUser
+    deleteUser,
+    findAll
 }
