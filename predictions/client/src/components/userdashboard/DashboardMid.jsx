@@ -22,18 +22,14 @@ export const DashboardMid = () => {
 }, []
 )
 
-//number to display on leaderboard
-let num=0
-
-
   return (
     <>
       <div className="container">
         <h3>Global Leaderboard</h3>
         {
-          users.map((user)=>(
+          users.map((user, index)=>(
             <div key={user.points}>
-              <p>{num+=1}. {user.firstName} {user.points} points</p>
+              <p>{index+=1}. {user.firstName} {user.points} points</p>
             </div>
           ))
         }
