@@ -4,8 +4,8 @@ import {useParams, Link} from 'react-router-dom'
 import UserContext from '../../context/userContext';
 
 export const DashboardMid = () => {
-  const { user, setUser } = useContext( UserContext )
-  const [ users, setUsers ]= useState([])
+  const {user, setUser}=useContext(UserContext)
+  const [users, setUsers]=useState([])
   
   {/* api call to get all users*/}
   useEffect(()=>{
@@ -22,14 +22,18 @@ export const DashboardMid = () => {
 }, []
 )
 
+//number to display on leaderboard
+let num=0
+
+
   return (
     <>
       <div className="container">
         <h3>Global Leaderboard</h3>
         {
-          users.map((user, index)=>(
+          users.map((user)=>(
             <div key={user.points}>
-              <p>{index + 1}. {user.firstName} {user.points} points</p>
+              <p>{num+=1}. {user.firstName} {user.points} points</p>
             </div>
           ))
         }
@@ -37,7 +41,6 @@ export const DashboardMid = () => {
         
         <h3>Your points</h3>
         <p>{user.points}</p>
-
 
       </div>
 
