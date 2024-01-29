@@ -27,15 +27,15 @@ const UpdateLeague = (props) => {
         console.log("LEAGUE NAME", leagueName)
         e.preventDefault();
         
-        axios.patch(`http://localhost:8000/api/league/${id}`, {leagueName})
+        axios.patch(`http://localhost:8000/api/league/info/${id}`, {leagueName})
             .then(res => {
                 console.log("RES", res);
-
                 navigate(`/oneLeague/${id}`); 
             })
             .catch(err => {
                 console.log("ERR", err)
-                setErrors(err);
+
+                setErrors(err.response.data.error.errors);
                 console.log("error1", errors)
             })
     
@@ -50,7 +50,7 @@ console.log(leagueName)
             <label >League Name:</label>
             <input type="text" name="league_name" value={leagueName} onChange={(e)=>{setLeagueName(e.target.value)} }/>
             { errors.league_name ? 
-                        <p>{errors.league_name.message}</p>
+                        <p style={{color:"red"}}>{errors.league_name.message}</p>
                         : null
                     }
             <button>Update League Name</button>

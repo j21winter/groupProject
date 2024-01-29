@@ -75,7 +75,7 @@ function App() {
           <Routes>
               <Route path='/' element={<Homepage/>} />  
               <Route path='/login' element={<LoginAndReg />} />
-              <Route path='/dashboard' element={<Dashboard/>}/>
+              <Route path='/dashboard' element={<Dashboard />}/>
               <Route path='/predictions' element={<Predictions/>}/>
               <Route path='/oneLeague/:id' element={<LeaguePage/>}/>
               <Route path='/update/:id' element={<UpdateLeague/>}/>
