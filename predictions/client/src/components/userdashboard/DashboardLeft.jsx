@@ -6,14 +6,15 @@ import UserContext from '../../context/userContext';
 
 const DashboardLeft = (props) => {
   const navigate=useNavigate()
-  const { user, setUser } = useContext(UserContext)
-  const {leagues, setLeagues}=useContext(UserContext)
-  const [usersLeagues, setUsersLeagues]=useState([])
-  const [errors, setErrors] = useState({
+
+  const { user, setUser, setScoresAndPredictions, leagues, setLeagues } = useContext(UserContext)
+ 
+  const [ usersLeagues, setUsersLeagues ] = useState([])
+   // Errors
+  const [ errors, setErrors ] = useState({
     leagues : {
       league_name: ""
-    },
-    
+    }, 
   })
 
   //Grab all leagues function
@@ -42,8 +43,10 @@ const DashboardLeft = (props) => {
     axios.post('http://localhost:8000/api/league/new', {...leagueInput})
             .then(res => {
                 console.log("RES", res.data)
-                setLeagueInput({league_name: "", user: user._id})
-                setUser(prevUser=>({...prevUser, ["leagues"]:res.data.updatedUser.leagues
+                setLeagueInput( { league_name: "", user: user._id } )
+                setUser( prevUser => ({
+                  ...prevUser, 
+                  ["leagues"] : res.data.updatedUser.leagues
                 }))
                 //need to reset users leagues here to include the newest one! and updates all leagues.
                 //want to have users leagues include the newest one without reset
@@ -57,28 +60,39 @@ const DashboardLeft = (props) => {
                 All_Leagues()
                 navigate('/dashboard')
             })
-            .catch(err=>{
-              console.log("ERR", err)
-              console.log(err.response.data.errors)
+            .catch( err => {
               setErrors(err.response.data.errors);
               console.log("error1", errors)
           }) 
           
   }
   // need to make axios call to grab users leagues. How to do this using the logged in users id? 
-    const handleChange=e=>{
+    const handleChange = e => {
         e.preventDefault()
-        setLeagueInput(prevInput=>({
+        setLeagueInput( prevInput => ({
           ...prevInput, 
-          [e.target.name]: e.target.value
+          [ e.target.name ] : e.target.value
         }))
     }
     // Logout user
-  const handleLogout = () => {
-    setUser(null);
-    document.cookie = 'userToken=;';
-    navigate('/login');
-  };
+  // const handleLogout = () => {
+  //   setUser(null);
+  //   document.cookie = 'userToken=;';
+  //   navigate('/login');
+  // };
+
+  const handleLogout = async (e) => {
+    e.preventDefault()
+    setUser({})
+    setScoresAndPredictions({})
+    await localStorage.removeItem("user")
+    await localStorage.removeItem("scoresAndPredictions")
+    axios.post('http://localhost:8000/api/logout' , {}, {withCredentials: true})
+        .then(res => {
+            navigate('/login')
+        })
+        .catch(err => console.log(err))
+} 
 
   return (
 

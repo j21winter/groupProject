@@ -6,6 +6,7 @@ module.exports = (app) => {
     // PROTECTED ROUTES 
     // CREATE
     app.post('/api/predictions/new', PredictionController.addPrediction)
+    app.post('/api/predictions/new/many', PredictionController.addMany)
     // READ
     app.get('/api/predictions', PredictionController.findAllPredictions)
     app.get('/api/predictions/:id', authenticate, PredictionController.findPrediction)

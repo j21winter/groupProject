@@ -105,4 +105,4 @@ const handleJoinLeague = () => {
   )
 }
 
-export default LeaguePage
+export default LeaguePage;
