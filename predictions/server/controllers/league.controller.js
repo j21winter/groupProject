@@ -4,10 +4,9 @@ const User = require('../models/user.model')
 // CREATE
 const addLeague = async(req, res) => {
     try{
-        console.log(req.body)
         const newLeague= await League.create(req.body)
         const updatedUser= await User.findOneAndUpdate(
-            { _id: req.body.user_id },
+            { _id: req.body.user },
             { 
                 $push: { leagues: newLeague }, // push to the history array
             },
@@ -15,8 +14,8 @@ const addLeague = async(req, res) => {
         ).populate("leagues")
             res.json({newLeague, updatedUser})
     }catch(error){ 
-        console.log(error)
-        // res.json(error)
+            res.json(error)
+
     }
 }
 
@@ -35,7 +34,7 @@ const findLeague = (req, res) => {
 const findAllLeagues=(req, res)=> {
     League.find()
         .then(allLeagues => {
-            console.log("LEAGUES", allLeagues)
+            // console.log("LEAGUES", allLeagues)
             res.status(200).json({allLeagues})
         })
         .catch(err => {

@@ -1,16 +1,36 @@
 const Prediction = require('../models/predictions.model')
+const User = require('../models/user.model')
 const FPL_API = require('../controllers/FPL.API.controller')
 
 // CREATE
 const addPrediction = (req, res) => {
     Prediction.create(req.body)
         .then( newPrediction => {
-            //! add prediction to user 
             res.status(200).json(newPrediction)
         })
         .catch(err => {
             res.status(400).json(err)
         })
+}
+
+const addMany = async (req, res) => {
+    try{
+
+        const newPredictions = await Prediction.insertMany(req.body)
+        const updatedUserWithPredictions = await User.findOneAndUpdate(
+            { _id: req.body[0].user },
+            { 
+                $push: { predictions: { $each : newPredictions } },
+            },
+            { new: true, runValidators: true }
+        ).populate("predictions").populate('leagues')
+
+        const {updatedUser, scoresAndPredictions} = await FPL_API.scoresAndPredictions(req.body[0].user)
+        res.status(200).json({updatedUser, scoresAndPredictions})
+    }catch(err){
+        res.status(400).json(err)
+    }
+
 }
 
 // READ
@@ -27,7 +47,6 @@ const findPrediction = (req, res) => {
 const findAllPredictions = (req, res) => {
     Prediction.find({})
         .then(allPredictions => {
-            console.log(allPredictions)
             res.status(200).json(allPredictions)})
         .catch(err => console.log(err))
 }
@@ -60,6 +79,7 @@ const deletePrediction = (req, res) => {
 
 module.exports = {
     addPrediction, 
+    addMany,
     findPrediction, 
     updatePrediction, 
     deletePrediction,

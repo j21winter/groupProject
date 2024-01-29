@@ -5,8 +5,8 @@ import axios from 'axios'
 import UserContext from '../../context/userContext';
 
 const DashboardLeft = (props) => {
-  const navigate=useNavigate()
-  const { user, setUser } = useContext(UserContext)
+  const navigate = useNavigate()
+  const { user, setUser, setScoresAndPredictions } = useContext(UserContext)
   //need to grab errors object for form
   // Errors
   const [errors, setErrors] = useState({
@@ -15,7 +15,7 @@ const DashboardLeft = (props) => {
     },
     
   })
-  const [leagueInput, setLeagueInput]=useState({league_name: "", user_id: user._id})
+  const [leagueInput, setLeagueInput]= useState({league_name: "", user: user._id})
 
   const handleLeagueSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ const DashboardLeft = (props) => {
     axios.post('http://localhost:8000/api/league/new', {...leagueInput})
             .then(res => {
                 console.log(res.data)
-                setLeagueInput({league_name: "", user_id: user._id})
+                setLeagueInput({league_name: "", user: user._id})
                 setUser(prevUser=>({...prevUser, ["leagues"]:res.data.updatedUser.leagues
 
                 }))
@@ -46,11 +46,24 @@ const DashboardLeft = (props) => {
         }))
     }
     // Logout user
-  const handleLogout = () => {
-    setUser(null);
-    document.cookie = 'userToken=;';
-    navigate('/login');
-  };
+  // const handleLogout = () => {
+  //   setUser(null);
+  //   document.cookie = 'userToken=;';
+  //   navigate('/login');
+  // };
+
+  const handleLogout = async (e) => {
+    e.preventDefault()
+    setUser({})
+    setScoresAndPredictions({})
+    await localStorage.removeItem("user")
+    await localStorage.removeItem("scoresAndPredictions")
+    axios.post('http://localhost:8000/api/logout' , {}, {withCredentials: true})
+        .then(res => {
+            navigate('/login')
+        })
+        .catch(err => console.log(err))
+} 
 
   return (
 

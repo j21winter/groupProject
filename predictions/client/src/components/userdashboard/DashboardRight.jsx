@@ -3,7 +3,7 @@ import axios from 'axios'
 import {useParams, Link} from 'react-router-dom'
 
 const DashboardRight = () => {
-  const [leagues, setLeagues]=useState([])
+  const [leagues, setLeagues ]=useState([])
 // axios call to get available leagues links for leagues user can join 
 
 
