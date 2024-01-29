@@ -21,7 +21,7 @@ export const DashboardMid = () => {
     })
 }, []
 )
-
+console.log("POINTS", user.points)
 //number to display on leaderboard
 let num=0
 
@@ -31,7 +31,7 @@ let num=0
       <div className="container">
         <h3>Global Leaderboard</h3>
         {
-          users.map((user)=>(
+          users.slice(0,5).map((user)=>(
             <div key={user.points}>
               <p>{num+=1}. {user.firstName} {user.points} points</p>
             </div>

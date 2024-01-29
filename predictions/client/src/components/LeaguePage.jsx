@@ -31,16 +31,23 @@ const LeaguePage = (props) => {
     })
     navigate("/dashboard")
   }
+
     
   return (
     <div>
-        <Link to={'/dashboard'}>Dashboard</Link>
-        <h1>{league.league_name}</h1>
-        {/* will want to display all league members by mapping through */}
-          <div>
-          {league.user==user._id ?
-          (<p><Link to={`/update/${league._id}`}>Edit</Link> <button onClick={(e)=>handleDelete(league._id)}>Delete</button></p>): (<p>Join League</p>)
-        }
+        <div className="container text-center mt-5">
+          <Link to={'/dashboard'}>Dashboard</Link>
+          <h1>{league.league_name}</h1>
+          {/* will want to display all league members by mapping through */}
+            <div>
+            {league.user==user._id ?
+            (<p><Link to={`/update/${league._id}`}>Edit</Link> <br /> <button type="button" className="btn btn-outline-primary" onClick={(e)=>handleDelete(league._id)}>Delete</button></p>): (<button>Join League</button>)
+          }
+          </div>
+          <div className="members">
+            {/* map through members */}
+          </div>
+
         </div>
     </div>
   );
