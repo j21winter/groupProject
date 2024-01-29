@@ -97,7 +97,7 @@ const handleJoinLeague = () => {
       {
         (
           league.members && league.members.includes(user._id) || league.user === user._id ?
-          "You are a MEMEBER":
+          "You are a MEMBER":
               <button onClick={(e) => handleJoinLeague()}>Join League</button>
       )}
   </div>
