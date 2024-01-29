@@ -31,7 +31,7 @@ console.log("LEAGUES", leagues)
     <div>
     <h3>Join a League </h3>
       {
-          notUsersLeagues.map((league)=>(
+          notUsersLeagues.slice(0,10).map((league)=>(
             <div key={league._id}>
                   
                     <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
