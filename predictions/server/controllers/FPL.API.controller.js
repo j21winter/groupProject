@@ -11,7 +11,6 @@ const getGames = async(userId) => {
         const allGamesRes = await axios.get('https://fantasy.premierleague.com/api/fixtures/')
 
         // get all predictions from user in DB
-        // const allPredictionsRes = await axios.get('http://localhost:8000/api/predictions');
         const allPredictions = await Prediction.find({user : userId}).lean()
 
         // Create hash map of all games using FPL response 
@@ -40,9 +39,6 @@ const getGames = async(userId) => {
             }
         }
 
-        // !consider uncommenting after testing
-        // assessPoints(allGames)
-        // return all games with predictions attached 
         return allGames
         
     } catch (err) {
@@ -62,7 +58,7 @@ const assessPoints = async (allGames) => {
             
         })
         
-        console.log("Total Points" + pointsTotal)
+
         const completeArray = []
         Object.entries(allGames).forEach(([key, value]) => completeArray.push(value))
 
@@ -85,28 +81,28 @@ const points = (data) => {
     } else {
         // compare predictions and results
         if(prediction.homeTeamScore > prediction.awayTeamScore && gameInfo.team_h_score > gameInfo.team_a_score){
-            console.log('Correct result :' + prediction.gameId)
+
             pointSum += 1
             prediction["pointsLog"]["result"] = 1
 
         } else if(prediction.homeTeamScore < prediction.awayTeamScore && gameInfo.team_h_score < gameInfo.team_a_score) {
-            console.log('Correct result :' + prediction.gameId)
+
             pointSum += 1
             prediction["pointsLog"]["result"] = 1
 
         } else if( prediction.homeTeamScore === prediction.awayTeamScore && gameInfo.team_h_score === gameInfo.team_a_score ) {
-            console.log('Correct result :' + prediction.gameId)
+
             pointSum += 1
             prediction["pointsLog"]["result"] = 1
         } else {
-            console.log('InCorrect result :' + prediction.gameId)
+
             prediction["pointsLog"]["result"] = 0
         }
 
         // check scores
         // check home team input
         if(prediction.homeTeamScore === gameInfo.team_h_score){
-            console.log('Correct home team score')
+
             pointSum += 2
             prediction["pointsLog"]['homeTeamScore'] = 2
         } else {
@@ -115,7 +111,7 @@ const points = (data) => {
 
         // check away team input
         if(prediction.awayTeamScore === gameInfo.team_a_score){
-            console.log('Correct away team score')
+
             pointSum += 2
             prediction["pointsLog"]['awayTeamScore'] = 2
         } else {
@@ -124,7 +120,7 @@ const points = (data) => {
 
         // check if they got both right ans award points
         if(prediction["pointsLog"]['homeTeamScore'] && prediction["pointsLog"]['awayTeamScore']){
-            console.log('The perfect Result')
+
             pointSum += 3
             prediction["pointsLog"]['bonus'] = 3
         } else {
@@ -137,9 +133,31 @@ const points = (data) => {
     return {pointSum, prediction}
 }
 
+const toGameWeek = async (arr) => {
+    try {
+    const allInfo = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/')
+    const gameWeekWithGames = {}
+    for(game of arr){
+        if(gameWeekWithGames.hasOwnProperty(game.gameInfo.event)){
+            gameWeekWithGames[game.gameInfo.event]['games'].push(game)
+        } else {
+            gameWeekWithGames[game.gameInfo.event] = {}
+            gameWeekWithGames[game.gameInfo.event]['games'] = [game]
+        }
+    }
+    
+    // console.log(allInfo.data.events)
 
+    for(week of allInfo.data.events){
+        gameWeekWithGames[week.id]["gameWeekInfo"] = week 
+    }
 
-const userID = '65b09dac8e0b112950cf0a2d'
+    return gameWeekWithGames
+    } catch (err){
+        console.log(err)
+    }
+}
+
 const scoresAndPredictions = async(userID) => {
     try {
         const gamesWithPredictions = await getGames(userID)
@@ -147,11 +165,10 @@ const scoresAndPredictions = async(userID) => {
         const {pointsTotal, completeArray} = await assessPoints(gamesWithPredictions)
 
         const updatedUser = await User.findByIdAndUpdate(userID, {points : pointsTotal}).populate('predictions')
-        console.log(updatedUser)
-
-
-
-        return {updatedUser, scoresAndPredictions: completeArray}
+        
+        const gameWeekWithGames = await toGameWeek(completeArray)
+        
+        return {updatedUser, scoresAndPredictions: gameWeekWithGames}
     } catch (err){
         console.log(err)
     }

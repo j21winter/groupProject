@@ -8,11 +8,11 @@ const PredictionSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    gameWeekId : {
-        // reference the game week, useful for searching games per game week
-        type: Number, 
-        required : [true , "Game week ID is required"]
-    }, 
+    // gameWeekId : {
+    //     // reference the game week, useful for searching games per game week
+    //     type: Number, 
+    //     required : [true , "Game week ID is required"]
+    // }, 
     gameId : {
         // reference the game
         type: Number, 

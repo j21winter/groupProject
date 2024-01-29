@@ -22,6 +22,7 @@ function App() {
   // state to store info on our user
   const [user, setUser] = useState(storedUser)
   const [scoresAndPredictions, setScoresAndPredictions] = useState(storedScoresAndPredictions) 
+  const [leagues,setLeagues]=useState([])
   const [teamNames, setTeamNames] = useState(
     {
       '1': 'Arsenal',
@@ -70,7 +71,7 @@ function App() {
   return (
     <>
 
-      <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions, teamNames }}>
+      <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions, teamNames, leagues, setLeagues }}>
           <Routes>
               <Route path='/' element={<Homepage/>} />  
               <Route path='/login' element={<LoginAndReg />} />
