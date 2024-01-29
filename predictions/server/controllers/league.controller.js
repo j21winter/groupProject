@@ -4,7 +4,11 @@ const User = require('../models/user.model')
 // CREATE
 const addLeague = async(req, res) => {
     try{
-        const newLeague= await League.create(req.body)
+        const leagueData = {
+            ...req.body,
+            members: [req.body.user]
+        };
+        const newLeague= await League.create(leagueData)
         const updatedUser= await User.findOneAndUpdate(
             { _id: req.body.user },
             { 
