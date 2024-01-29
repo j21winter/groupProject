@@ -43,7 +43,7 @@ const LeaguePage = (props) => {
         }
         </div>
     </div>
-  )
-}
+  );
+};
 
-export default LeaguePage
+export default LeaguePage;
