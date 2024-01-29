@@ -13,9 +13,9 @@ const addLeague = async(req, res) => {
             { new: true, runValidators: true }
         ).populate("leagues")
             res.json({newLeague, updatedUser})
-    }catch(error){ 
-            res.json(error)
-
+    } catch (err) { 
+        console.log(err)
+        res.status(400).json(err)
     }
 }
 
@@ -44,13 +44,11 @@ const findAllLeagues=(req, res)=> {
 }
 // UPDATE
 const updateLeague = (req, res) => {
-    League.findByIdAndUpdate(req.params.id, req.body)
+    League.findByIdAndUpdate({_id: req.params.id}, req.body, {new: true, runValidators: true})
         .then( updatedLeague => {
             res.status(200).json(updatedLeague)
         })
-        .catch(err => {
-            res.status(400).json(err)
-        })
+        .catch(err => res.status(400).json({message:"something went wrong in update method", error:err}))
 }
 
 // DELETE
