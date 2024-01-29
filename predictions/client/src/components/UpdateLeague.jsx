@@ -27,10 +27,9 @@ const UpdateLeague = (props) => {
         console.log("LEAGUE NAME", leagueName)
         e.preventDefault();
         
-        axios.patch(`http://localhost:8000/api/league/${id}`, {leagueName})
+        axios.patch(`http://localhost:8000/api/league/info/${id}`, {leagueName})
             .then(res => {
                 console.log("RES", res);
-
                 navigate(`/oneLeague/${id}`); 
             })
             .catch(err => {
