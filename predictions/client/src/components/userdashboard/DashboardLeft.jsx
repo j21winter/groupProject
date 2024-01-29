@@ -51,6 +51,12 @@ const DashboardLeft = (props) => {
         .then((res) => {
           setLeagues(res.data.allLeagues.filter((league) => league.user == user._id));
         })
+        setErrors({
+          leagues : {
+            league_name: ""
+          },
+          
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -112,7 +118,7 @@ const DashboardLeft = (props) => {
             className="form-control"/>
             <button type="submit" className="btn btn-success">Submit</button>
           </div>
-          {errors.league_name ? <p className='text-white text-center'>{errors.league_name.message}</p> : ""}
+          {errors.league_name ? <p style={{color:"red"}}>{errors.league_name.message}</p> : ""}
 
         </form>
         </div>
