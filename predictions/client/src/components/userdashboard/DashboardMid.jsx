@@ -56,13 +56,16 @@ let num=0
               ))
 
         }
-        <div>
-          <h2>Future Games</h2>
-
-        </div>
+        
         <div>
           <h3>Your points</h3>
           <p>{user.points}</p>
+        </div>
+        <div>
+          {/* link to predictions page */}
+        
+        <h3><Link to ={"/predictions"}>Your Predictions</Link></h3>
+
         </div>
 
       </div>
