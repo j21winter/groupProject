@@ -60,6 +60,7 @@ const handleJoinLeague = () => {
     })
     navigate("/dashboard")
   }
+
   
   useEffect(() => {
     fetchLeagueMembers();
@@ -103,6 +104,6 @@ const handleJoinLeague = () => {
   </div>
 
   )
-}
+
 
 export default LeaguePage;

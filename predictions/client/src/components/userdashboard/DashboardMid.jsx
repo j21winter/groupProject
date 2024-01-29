@@ -22,7 +22,7 @@ export const DashboardMid = () => {
     })
 }, []
 )
-
+console.log("POINTS", user.points)
 //number to display on leaderboard
 let num=0
 
@@ -32,6 +32,7 @@ let num=0
       <div className="container">
         <h3>Global Leaderboard</h3>
         {
+
             [...users].sort((a, b) => b.points - a.points) // Sort users by points in descending order
                 .slice(0, 5) // Get only the first 5 users
                   .map((user, index) => (
@@ -39,6 +40,7 @@ let num=0
                       <p>{index + 1}. {user.firstName} {user.points} points</p>
                     </div>
               ))
+
         }
         <h3>Your points</h3>
         <p>{user.points}</p>
