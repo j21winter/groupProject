@@ -45,12 +45,17 @@ const findAllLeagues=(req, res)=> {
 }
 // UPDATE
 const updateLeague = (req, res) => {
-    League.findByIdAndUpdate({_id: req.params.id}, req.body, {new: true, runValidators: true})
-        .then( updatedLeague => {
-            res.status(200).json(updatedLeague)
-        })
-        .catch(err => res.status(400).json({message:"something went wrong in update method", error:err}))
-}
+    League.findByIdAndUpdate(
+        {_id: req.params.id}, 
+        { $addToSet: { members: req.body.userId } }, // use $addToSet instead of push to avoid dublicates
+        { new: true, runValidators: true }
+    )
+    .then(updatedLeague => {
+        res.status(200).json(updatedLeague)
+    })
+    .catch(err => res.status(400).json({ message: "something went wrong in update method", error: err }))
+};
+
 
 // DELETE
 const deleteLeague = (req, res) => {
