@@ -51,7 +51,7 @@ function App() {
 
   // save the logged in user to state
   const saveLoggedInUser = userData => {
-    console.log("saving", userData)
+
     const userObj = {...userData, password: ""}
     setUser(userObj)
     localStorage.setItem('user', JSON.stringify(user))
@@ -62,7 +62,7 @@ function App() {
   useEffect(() => {
     // save user every time a change is made to the user state in the dom
     if(user){
-      console.log("saving user to local storage")
+
       localStorage.setItem('user', JSON.stringify(user))
       localStorage.setItem('scoresAndPredictions', JSON.stringify(scoresAndPredictions))
     }
