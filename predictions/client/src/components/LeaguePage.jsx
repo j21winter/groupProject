@@ -6,17 +6,17 @@ import '../App.css'
 import Header from '../components/Header'
 
 const LeaguePage = () => {
+  const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
   const [league, setLeague] = useState({});
   const [membersDetails, setMembersDetails] = useState([]);
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   // console.log(membersDetails)
 
   // Fetch user by ID
   const fetchUserById = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/user/${userId}`);
+      const response = await axios.get(`http://localhost:8000/api/user/${ userId }`);
       return response.data; // Assuming this includes name and points
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -27,7 +27,7 @@ const LeaguePage = () => {
   // Fetch league members
   const fetchLeagueMembers = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/league/${id}`);
+      const response = await axios.get(`http://localhost:8000/api/league/${ id }`);
       setLeague(response.data);
 
       const membersData = await Promise.all(response.data.members.map(memberId => fetchUserById(memberId)));
@@ -51,16 +51,18 @@ const handleJoinLeague = () => {
 };
 
 
-  const handleDelete=(_id)=>{
+  const handleDelete= (_id) => {
     axios.delete(`http://localhost:8000/api/league/${_id}`)
-    .then(res=>{
-        console.log(res)
-        removeFromDom(_id)
+    .then(res => {
+        setUser(prevUser => ({
+          ...prevUser,
+          ['leagues'] : prevUser.leagues.filter(league => league._id != res.data._id)
+        }))
+        navigate("/dashboard")
     })
     .catch(err=>{
         console.log(err)
     })
-    navigate("/dashboard")
   }
 
   
