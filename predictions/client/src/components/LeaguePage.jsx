@@ -2,6 +2,8 @@ import {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import {useParams, Link, useNavigate} from 'react-router-dom'
 import UserContext from '../context/userContext';
+import '../App.css'
+import Header from '../components/Header'
 
 const LeaguePage = () => {
   const { id } = useParams();
@@ -67,47 +69,54 @@ const handleJoinLeague = () => {
   }, [id]);
 
   return (
-    <div>
-      <div className="container text-center">
-        <Link to={'/dashboard'}>Dashboard</Link>
-        <h1>{league.league_name}</h1>
-        <h3>Members</h3>
-        <table className="table table-striped text-center">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-        <tbody>
-            {membersDetails.map((member, index) => (
-              <tr key={index}>
-                <td>{member.firstName} {member.lastName}</td> 
-                <td>{member.points}</td>
+    <div style={{ backgroundColor: "#38003c" }}>
+      <Header />
+      <div className="container my-4">
+        <div className="row">
+          <div className="col text-center">
+            <Link to="/dashboard" className="btn btn-secondary mb-3">Dashboard</Link>
+            <h1 className="display-4 text-white">{league.league_name}</h1>
+            <h3 className="mb-4 text-white">Members</h3>
+            <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Points</th>
               </tr>
-            ))}
-        </tbody>
-      </table>
-      <div>
-        {league.user === user._id ? (
-            <>
-                <p><Link to={`/update/${league._id}`}>Edit</Link></p>
-                <button className="btn btn-outline-primary" onClick={(e) => handleDelete(league._id)}>Delete</button>
-              
-                <br />
-            </>
-        ) : ''}
-        {
-          (
-            league.members && league.members.includes(user._id) || league.user === user._id ?
-            "You are a MEMBER":
-                <button className="btn btn-outline-primary" onClick={(e) => handleJoinLeague()}>Join League</button>
-        )}
+            </thead>
+            <tbody>
+              {membersDetails.map((member, index) => (
+                <tr key={index}>
+                  <td>{member.firstName} {member.lastName}</td>
+                  <td>{member.points}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div>
+              {league.user === user._id ? (
+                <div className="d-flex justify-content-center">
+                <div className="col-6 col-md-4">
+                  <Link to={`/update/${league._id}`} className="btn btn-edit w-30">Edit</Link>
+                </div>
+                <div className="col-6 col-md-4">
+                  <button className="btn btn-delete w-30" onClick={() => handleDelete(league._id)}>Delete</button>
+                </div>
+              </div>
+              ) : ''}
+              {league.members && league.members.includes(user._id) || league.user === user._id ?
+                <p className="mt-3">
+                  <span className="badge badge-success">You are a MEMBER</span>
+                </p>
+              :
+                <button className="btn btn-join mt-3" onClick={handleJoinLeague}>Join League</button>
+              }
+            </div>
+          </div>
+        </div>
       </div>
-      </div>
-  </div>
+    </div>
+  );
+};
 
-  )
-
-        }
 export default LeaguePage;
