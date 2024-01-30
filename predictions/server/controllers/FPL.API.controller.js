@@ -164,7 +164,7 @@ const scoresAndPredictions = async(userID) => {
 
         const {pointsTotal, completeArray} = await assessPoints(gamesWithPredictions)
 
-        const updatedUser = await User.findByIdAndUpdate(userID, {points : pointsTotal}).populate('predictions')
+        const updatedUser = await User.findByIdAndUpdate(userID, {points : pointsTotal}).populate('predictions').populate("leagues")
         
         const gameWeekWithGames = await toGameWeek(completeArray)
         

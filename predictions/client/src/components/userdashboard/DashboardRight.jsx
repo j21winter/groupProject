@@ -13,7 +13,6 @@ const DashboardRight = () => {
   useEffect(()=>{
     axios.get("http://localhost:8000/api/allLeagues")
     .then(res => {
-        console.log(res)
         setNotUsersLeagues( res.data.allLeagues.filter( league => league.user != user._id))
     })
     .catch(err=>{
