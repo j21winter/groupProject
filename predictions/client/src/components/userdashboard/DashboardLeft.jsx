@@ -1,19 +1,19 @@
 import React from 'react'
-import { useEffect, useState, useContext } from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import { useState, useContext } from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 import UserContext from '../../context/userContext';
 
 const DashboardLeft = () => {
 
-  const navigate = useNavigate()
+
   const { user, setUser } = useContext(UserContext)
-  const [leagues, setLeagues] = useState([])
   const [errors, setErrors] = useState({
     leagues : {
       league_name: ""
     },
   })
+  const [leagueInput, setLeagueInput] = useState({league_name: "", user: user._id})
 
 //Do not need this code bc we are mapping through leagues via user
 //   const allLeagues = () => {
@@ -32,7 +32,6 @@ const DashboardLeft = () => {
 //       console.log("LEAGUES2", leagues)
 //   }, []);
 
-  const [leagueInput, setLeagueInput]=useState({league_name: "", user: user._id})
 
   //submitting league form
   const handleLeagueSubmit = (e) => {
