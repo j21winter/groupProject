@@ -23,21 +23,23 @@ const LoginAndReg = () => {
 
   
   return(
-    <>
-      <div className='d-flex justify-content-evenly mt-5'>
-        <div className='w-50'>
-          <RegForm errors={errors} setErrors={setErrors}/>
+    
+      <div className="container-fluid main_container mh-100 d-inline-block " style={{backgroundColor: "	#38003c"}}>
+        <div className='d-flex justify-content-evenly m-5'>
+          <div className='w-50 ' >
+            <RegForm errors={errors} setErrors={setErrors}/>
+
+          </div>
+
+          <div className='w-50'>
+            <LoginForm errors={errors} setErrors={setErrors}/>
+          
+          </div>
+
 
         </div>
-
-        <div className='w-50'>
-          <LoginForm errors={errors} setErrors={setErrors}/>
-        
-        </div>
-
-
       </div>
-    </>
+ 
   )
 }
 export default LoginAndReg

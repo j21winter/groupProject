@@ -74,7 +74,7 @@ const handleJoinLeague = () => {
       <div className="container my-4">
         <div className="row">
           <div className="col text-center">
-            <Link to="/dashboard" className="btn btn-secondary mb-3">Dashboard</Link>
+            {/* <Link to="/dashboard" className="btn btn-secondary mb-3">Dashboard</Link> */}
             <h1 className="display-4 text-white">{league.league_name}</h1>
             <h3 className="mb-4 text-white">Members</h3>
             <table className="table table-striped">
