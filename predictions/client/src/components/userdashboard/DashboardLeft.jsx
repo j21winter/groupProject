@@ -15,21 +15,22 @@ const DashboardLeft = () => {
     },
   })
 
-  //Grab all leagues function
-  const allLeagues = () => {
-    axios.get("http://localhost:8000/api/allLeagues")
-    .then(res => {
-        setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
-    })
-    .catch(err => {
-        console.log(err);
-    });
-};
+//Do not need this code bc we are mapping through leagues via user
+//   const allLeagues = () => {
+//     axios.get("http://localhost:8000/api/allLeagues")
+//     .then(res => {
+//         setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
+//         console.log("LEAGUES", leagues)
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     });
+// };
 
-  // Grab all leagues when render
-  useEffect(() => {
-      allLeagues();
-  }, []);
+//   useEffect(() => {
+//       allLeagues();
+//       console.log("LEAGUES2", leagues)
+//   }, []);
 
   const [leagueInput, setLeagueInput]=useState({league_name: "", user: user._id})
 
@@ -58,6 +59,7 @@ const DashboardLeft = () => {
           ...prevInput, 
             [e.target.name]: e.target.value
         }))
+        
     }
 
   return (
