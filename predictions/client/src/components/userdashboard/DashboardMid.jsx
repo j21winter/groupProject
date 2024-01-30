@@ -19,9 +19,6 @@ export const DashboardMid = () => {
   const goToPreviousWeek = () => {
         setCurrentGameWeek(current => (current - 1 + gameWeeks.length) % gameWeeks.length);
   };
-  // console.log(teamNames)
-  // console.log(scoresAndPredictions)
-  // console.log("upgames:>>>>" + upcominggames)
 
   const checkfuturegames = () => {
     let upcomingGamesByWeek = {};
@@ -70,55 +67,46 @@ export const DashboardMid = () => {
     .catch(err=>{
         console.log(err)
     })
-}, []
-)
+  }, [])
 
-console.log("POINTS", user.points)
-//number to display on leaderboard
-let num=0
+// Convert to US time 
+const localDeadline = date => {
+let deadline = new Date(date)
+let userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+let localDeadline = deadline.toLocaleString('en-US', {userTimeZone})
+
+return localDeadline
+}
+
   return (
     <>
-      <div className="container">
-        <h3>Global Leaderboard</h3>
-        {
-
+      <div className="bg-white rounded rounded-3 overflow-hidden mx-3 border border-1 border-white">
+        <h3 className='text-center text-white fw-bold p-2 m-0' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Global Leaderboard</h3>
+        <div>
+          {
             [...users].sort((a, b) => b.points - a.points) // Sort users by points in descending order
                 .slice(0, 5) // Get only the first 5 users
                   .map((user, index) => (
-                    <div key={user._id}>
-                      <p>{index + 1}. {user.firstName} {user.points} points</p>
-                    </div>
+                      <p key={user._id} className='btn shadow text-dark-emphasis fw-bold mb-1 w-100'>{index + 1}. {user.firstName} {user.points} points</p>
               ))
-
-        }
-        <div>
-                <h2>Future Games</h2>
-                {gameWeeks.length > 0 && (
-                    <div>
-                        <h3>{gameWeeks[currentGameWeek]}</h3>
-                        {upcominggames[gameWeeks[currentGameWeek]].map((game, index) => (
-                            <div key={index}>
-                                <p>Match: {game.teamH} vs {game.teamA}</p>
-                                <p>Kickoff Time: {game.kickoffTime}</p>
-                            </div>
-                        ))}
-                        <button onClick={goToPreviousWeek} disabled={currentGameWeek === 0}>Previous Week</button>
-                        <button onClick={goToNextWeek} disabled={currentGameWeek === gameWeeks.length - 1}>Next Week</button>
-                    </div>
-                )}
-           </div>
-
-        <div>
-          <h3>Your points</h3>
-          <p>{user.points}</p>
+          }
         </div>
         <div>
-          {/* link to predictions page */}
-        
-        <h3><Link to ={"/predictions"}>Your Predictions</Link></h3>
-
+          <h3 className='text-center text-white fw-bold p-2 m-0 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Future Games</h3>
+          {gameWeeks.length > 0 && (
+              <div className='p-1'>
+                  <h3>{gameWeeks[currentGameWeek]}</h3>
+                  {upcominggames[gameWeeks[currentGameWeek]].map((game, index) => (
+                      <div key={index} className='d-flex w-100 justify-content-evenly btn shadow text-dark-emphasis fw-bold mb-1 w-100 '>
+                          <p className='m-0'>{game.teamH} vs {game.teamA}</p>
+                          <p className='m-0'>{localDeadline(game.kickoffTime)}</p>
+                      </div>
+                  ))}
+                  <button onClick={goToPreviousWeek} disabled={currentGameWeek === 0} className="btn btn-sm fw-semibold border-0 mx-1 mb-1" style={{backgroundColor: "#04f5ff"}}>Previous Week</button>
+                  <button onClick={goToNextWeek} disabled={currentGameWeek === gameWeeks.length - 1} className="btn btn-sm fw-semibold border-0  mx-1 mb-1" style={{backgroundColor: "#00ff85"}}>Next Week</button>
+              </div>
+            )}
         </div>
-
       </div>
 
     </>

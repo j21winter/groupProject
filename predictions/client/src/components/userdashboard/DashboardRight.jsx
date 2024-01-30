@@ -1,10 +1,9 @@
 import {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
-import {useParams, Link, useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import UserContext from '../../context/userContext';
 
 const DashboardRight = () => {
-  const navigate=useNavigate()
   const { user, setUser, leagues, setLeagues } = useContext(UserContext)
   const [notUsersLeagues, setNotUsersLeagues] = useState([])
 
@@ -23,32 +22,20 @@ const DashboardRight = () => {
 }, []
 )
 
-    // Logout user
-    const handleLogout = () => {
-      setUser(null);
-      document.cookie = 'userToken=;';
-      navigate('/login');
-    };
-console.log("LEAGUES", leagues)
-// const leaguesToJoin=leagues.filter(league=>league.user!=user._id)
-
   return (
     <>
-    <div>
-    <h3>Join a League </h3>
-      {
-          notUsersLeagues.slice(0,10).map((league)=>(
-            <div key={league._id}>
-                  
-                    <p ><Link to={`/oneLeague/${league._id}`}>{league.league_name}</Link></p>
-            
-            </div>
-      ))}
-      {/* Logout button */}
-      <button onClick={handleLogout} className="btn btn-danger">Logout</button>
+    <div className="joinLeagues shadow bg-white rounded-3 overflow-hidden border border-1 border-white">
+      <h3 className='fs-5 text-center text-white fw-bold w-100 p-2' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Join a League</h3>
+      <div>
+        {notUsersLeagues.length > 0 ? 
+          (notUsersLeagues.slice(0,10).map((league)=>(
+            <Link key={league._id} to={`/oneLeague/${league._id}`} className='btn shadow text-dark-emphasis fw-bold mb-1 w-100'>{league.league_name}</Link>
+        ))) : 
+            <p className='btn shadow text-dark-emphasis fw-bold mb-1 w-100'>No Leagues available</p>
+        }
+
+      </div>
     </div>
-      
-        
     </>
   )
 }
