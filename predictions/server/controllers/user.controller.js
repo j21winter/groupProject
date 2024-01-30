@@ -14,17 +14,17 @@ const register = async (req, res) => {
     try{
         const newUser = await User.create(req.body)
 
-        const {data} = await axios.get('https://fantasy.premierleague.com/api/fixtures/')
+        const {updatedUser, scoresAndPredictions} = await FPL_API.scoresAndPredictions(newUser._id)
 
         // generate token
         const userToken = jwt.sign({
-            id: newUser._id
+            id: updatedUser._id
         }, secret_key, {expiresIn: '1h'})
         // attach token to cookie
         res.cookie('userToken', userToken, {
             httpOnly: true
             })
-            .json({ msg: "Account Registered!", user: newUser, scoresAndPredictions : data });
+            .json({ msg: "Account Registered!", user: updatedUser, scoresAndPredictions : scoresAndPredictions });
         
 
 

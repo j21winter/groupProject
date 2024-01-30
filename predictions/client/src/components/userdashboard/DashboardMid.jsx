@@ -57,10 +57,10 @@ export const DashboardMid = () => {
 
   {/* api call to get all users*/}
   useEffect(()=>{
-    console.log("made api call")
+
     axios.get("http://localhost:8000/api/users")
     .then(res=>{
-        // console.log("RESULTS", res)
+
         setUsers(res.data.allUsers)
         checkfuturegames()
     })
