@@ -36,9 +36,9 @@ const findLeague = (req, res) => {
 
 // READ ALL
 const findAllLeagues=(req, res)=> {
-    League.find()
+    League.find().populate("members")
         .then(allLeagues => {
-            // console.log("LEAGUES", allLeagues)
+            console.log("LEAGUES1", allLeagues)
             res.status(200).json({allLeagues})
         })
         .catch(err => {
