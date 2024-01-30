@@ -76,7 +76,6 @@ const handleJoinLeague = () => {
       <div className="container my-4">
         <div className="row">
           <div className="col text-center">
-            {/* <Link to="/dashboard" className="btn btn-secondary mb-3">Dashboard</Link> */}
             <h1 className="display-4 text-white">{league.league_name}</h1>
             <h3 className="mb-4 text-white">Members</h3>
             <table className="table table-striped">
@@ -111,7 +110,7 @@ const handleJoinLeague = () => {
                   <span className="badge badge-success">You are a MEMBER</span>
                 </p>
               :
-                <button className="btn btn-join mt-3" onClick={handleJoinLeague}>Join League</button>
+                <button className="btn btn-join m-3" onClick={handleJoinLeague}>Join League</button>
               }
             </div>
           </div>

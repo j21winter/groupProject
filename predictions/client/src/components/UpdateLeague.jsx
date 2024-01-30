@@ -52,7 +52,7 @@ console.log(leagueName)
                 <form onSubmit={handleSubmit} >
                     <div class="form-group row d-flex justify-content-center">
                         <label  for="leagueName" style={{color: "white"}}>League Name:</label>
-                        <input className="form-control w-25 m-3" id="leagueName" type="text" name="league_name" value={leagueName} onChange={(e)=>{setLeagueName(e.target.value)} }/>
+                        <input className="form-control w-25 m-3" style={{border: "1px solid #00ff85"}} id="leagueName" type="text" name="league_name" value={leagueName} onChange={(e)=>{setLeagueName(e.target.value)} }/>
                         { errors.league_name ? 
                                     <p style={{color:"red"}}>{errors.league_name.message}</p>
                                     : null
