@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 // import '../../App.css';
 import welcomingHeader from '../../assets/Black White Minimalist Animation Logo Video  (1).gif'
 
+import Header from '../Header'
+
 export default function Homepage() {
 const Navigate = useNavigate();
 
 return (
     <div> 
+        <Header />
         <img src={welcomingHeader} alt="welcoming-header" style={{ 
             width: '100vw',  
             height: '35vw',
