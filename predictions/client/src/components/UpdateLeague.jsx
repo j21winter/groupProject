@@ -4,6 +4,7 @@ import { useEffect, useState, useContext } from 'react'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import axios from 'axios'
 import UserContext from '../context/userContext';
+import Header from '../components/Header'
 
 const UpdateLeague = (props) => {
     const { id } = useParams()
@@ -43,18 +44,24 @@ const UpdateLeague = (props) => {
 console.log(leagueName)
   return (
     <>
-        <div>
-            <h1>Update Your League Name</h1>
-            <p><Link to={"/dashboard"}>Dashboard</Link></p>
-            <form onSubmit={handleSubmit}>
-            <label >League Name:</label>
-            <input type="text" name="league_name" value={leagueName} onChange={(e)=>{setLeagueName(e.target.value)} }/>
-            { errors.league_name ? 
-                        <p style={{color:"red"}}>{errors.league_name.message}</p>
-                        : null
-                    }
-            <button>Update League Name</button>
-        </form>
+        <div style={{ backgroundColor: "#38003c" }}>
+        <Header />
+            <div className="content text-center p-3">
+                <h1 style={{color: "white"}}>Update Your League Name</h1>
+                {/* <p><Link to={"/dashboard"}>Dashboard</Link></p> */}
+                <form onSubmit={handleSubmit} >
+                    <div class="form-group row d-flex justify-content-center">
+                        <label  for="leagueName" style={{color: "white"}}>League Name:</label>
+                        <input className="form-control w-25 m-3" id="leagueName" type="text" name="league_name" value={leagueName} onChange={(e)=>{setLeagueName(e.target.value)} }/>
+                        { errors.league_name ? 
+                                    <p style={{color:"red"}}>{errors.league_name.message}</p>
+                                    : null
+                                }
+                    </div>
+                    <button className="btn btn-sm w-25 " type="submit" style={{backgroundColor: "#00ff85", color:"#38003c"}}>Update League Name</button>
+                </form>
+
+            </div>
         </div>
     </>
   )
