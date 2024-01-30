@@ -1,11 +1,11 @@
 .table {
   color: white;
-  border-color: #00ff85;
+  border-color: #00ff85 !important;
 }
 
 .table thead th {
-  background-color: #38003c;
-  color: #00ff85;
+  background-color: #38003c !important;
+  color: #00ff85 !important;
 }
 
 .btn-edit, .btn-delete, .btn-join {

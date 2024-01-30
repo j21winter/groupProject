@@ -97,10 +97,10 @@ const handleJoinLeague = () => {
               {league.user === user._id ? (
                 <div className="d-flex justify-content-center">
                 <div className="col-6 col-md-4">
-                  <Link to={`/update/${league._id}`} className="btn btn-edit w-30">Edit</Link>
+                  <Link to={`/update/${league._id}`} className="btn btn-edit w-80">Edit</Link>
                 </div>
                 <div className="col-6 col-md-4">
-                  <button className="btn btn-delete w-30" onClick={() => handleDelete(league._id)}>Delete</button>
+                  <button className="btn btn-delete w-80" onClick={() => handleDelete(league._id)}>Delete</button>
                 </div>
               </div>
               ) : ''}
