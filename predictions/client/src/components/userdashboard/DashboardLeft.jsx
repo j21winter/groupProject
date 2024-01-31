@@ -36,26 +36,26 @@ const DashboardLeft = () => {
 
   //submitting league form
   const handleLeagueSubmit = (e) => {
-    e.preventDefault();
-    setErrors({});
-    axios.post('http://localhost:8000/api/league/new', {...leagueInput})
-      .then(res => {
-        console.log(res)
-          setLeagueInput({league_name: "", user: user._id})
-          setUser(prevUser => (
-            {...prevUser,
-              ["leagues"]:res.data.updatedUser.leagues
-            }
-          ))
-          // setLeagues(prevLeagues=> (
-            //   [...prevLeagues, {"newLeague": res.data}]
-            // ))
-            //this ^ is not working to update state immediately
-      })
-      .catch(err => {
-          setErrors(err.response.data.errors);
-      }) 
-    }
+  e.preventDefault();
+  setErrors({});
+  axios.post('http://localhost:8000/api/league/new', { ...leagueInput })
+    .then(res => {
+      console.log(res);
+      setLeagueInput({ league_name: "", user: user._id });
+
+      // Update the leagues state directly using the returned data
+      setLeagues(prevLeagues => [...prevLeagues, res.data.newLeague]);
+
+      // If needed, you can still use setUser to update the user state
+      setUser(prevUser => ({
+        ...prevUser,
+        ["leagues"]: res.data.updatedUser.leagues
+      }));
+    })
+    .catch(err => {
+      setErrors(err.response.data.errors);
+    });
+}
 
   // need to make axios call to grab users leagues. How to do this using the logged in users id? 
     const handleChange = (e) => {
