@@ -6,7 +6,7 @@ import UserContext from '../../context/userContext';
 
 const DashboardLeft = () => {
 
-
+  const [leagues, setLeagues]=useState([])
   const { user, setUser } = useContext(UserContext)
   const [errors, setErrors] = useState({
     leagues : {
@@ -15,19 +15,21 @@ const DashboardLeft = () => {
   })
   const [leagueInput, setLeagueInput] = useState({league_name: "", user: user._id})
 
-//Do not need this code bc we are mapping through leagues via user
+// Do not need this code bc we are mapping through leagues via user
 //   const allLeagues = () => {
-//     axios.get("http://localhost:8000/api/allLeagues")
-//     .then(res => {
-//         setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
-//         console.log("LEAGUES", leagues)
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
+    
 // };
 
   useEffect(() => {
+    axios.get("http://localhost:8000/api/allLeagues")
+    .then(res => {
+      
+        setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
+        console.log("LEAGUES", leagues)
+    })
+    .catch(err => {
+        console.log(err);
+    });
       // console.log("LEAGUES2", leagues)
   }, []);
 
@@ -38,12 +40,17 @@ const DashboardLeft = () => {
     setErrors({});
     axios.post('http://localhost:8000/api/league/new', {...leagueInput})
       .then(res => {
+        console.log(res)
           setLeagueInput({league_name: "", user: user._id})
           setUser(prevUser => (
             {...prevUser,
               ["leagues"]:res.data.updatedUser.leagues
             }
           ))
+          // setLeagues(prevLeagues=> (
+            //   [...prevLeagues, {"newLeague": res.data}]
+            // ))
+            //this ^ is not working to update state immediately
       })
       .catch(err => {
           setErrors(err.response.data.errors);
@@ -81,7 +88,7 @@ const DashboardLeft = () => {
           </div>
           <h3 className='fs-5 text-center text-white fw-bold w-100 p-2 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Your Leagues</h3>
           <div className='px-2'>
-            {user.leagues.map((league)=>(
+            {leagues.map((league)=>(
 
               <div key={league._id}>
                   <Link to={`/oneLeague/${league._id}`} className='btn shadow text-dark-emphasis fw-bold mb-1 w-100'>{league.league_name}</Link>
