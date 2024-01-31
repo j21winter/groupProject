@@ -3,7 +3,7 @@ import FootballWidget from '../../LiveApi/FootballWidget';
 import { useNavigate } from 'react-router-dom';
 // import '../../App.css';
 import welcomingHeader from '../../assets/Black White Minimalist Animation Logo Video  (1).gif'
-
+import ad from '../../assets/ad.gif'
 import LoginForm from '../auth/LoginForm'
 import RegForm from '../auth/RegForm'
 
@@ -54,17 +54,24 @@ return (
             width: '100vw',  
             height: '35vw',
             display: 'block', 
-            objectFit: 'cover'}} /> 
+            objectFit: 'cover'
+            }} /> 
 
         <div style={{
+            marginTop: '1rem',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             height: '100%', 
             flexDirection: 'column' 
         }}>
-        <FootballWidget />
+            <FootballWidget />
         </div>
+        <img src={ad} alt="welcoming-header" style={{ 
+            width: '100vw',  
+            height: 'auto',
+            display: 'block', 
+            objectFit: 'cover'}} />
     </div>
 );
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useContext } from 'react'
+import { useState, useContext , useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import UserContext from '../../context/userContext';
@@ -27,10 +27,9 @@ const DashboardLeft = () => {
 //     });
 // };
 
-//   useEffect(() => {
-//       allLeagues();
-//       console.log("LEAGUES2", leagues)
-//   }, []);
+  useEffect(() => {
+      // console.log("LEAGUES2", leagues)
+  }, []);
 
 
   //submitting league form
