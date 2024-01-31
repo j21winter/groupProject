@@ -2,7 +2,7 @@ const League = require('../models/league.model')
 const User = require('../models/user.model')
 
 // CREATE
-const addLeague = async(req, res) => {
+const addLeague = async (req, res) => {
     try{
         const leagueData = {
             ...req.body,
@@ -25,7 +25,7 @@ const addLeague = async(req, res) => {
 
 // READ ONE by League id
 const findLeague = (req, res) => {
-    League.findById(req.params.id)
+    League.findById(req.params.id).populate("members")
         .then( foundLeague => {
             res.status(200).json(foundLeague)
         })
@@ -36,9 +36,9 @@ const findLeague = (req, res) => {
 
 // READ ALL
 const findAllLeagues=(req, res)=> {
-    League.find()
+    League.find().populate("members")
         .then(allLeagues => {
-            // console.log("LEAGUES", allLeagues)
+            console.log("LEAGUES1", allLeagues)
             res.status(200).json({allLeagues})
         })
         .catch(err => {

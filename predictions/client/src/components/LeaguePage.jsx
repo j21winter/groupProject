@@ -6,38 +6,26 @@ import '../App.css'
 import Header from '../components/Header'
 
 const LeaguePage = () => {
+  const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
   const [league, setLeague] = useState({});
-  const [membersDetails, setMembersDetails] = useState([]);
-  const { user } = useContext(UserContext);
+  // const [membersDetails, setMembersDetails] = useState([]);
   const navigate = useNavigate();
   // console.log(membersDetails)
 
-  // Fetch user by ID
-  const fetchUserById = async (userId) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/user/${userId}`);
-      return response.data; // Assuming this includes name and points
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      return null;
-    }
-  };
+  useEffect(() => {
+    // fetchLeagueMembers();
+    // get a copy of the league with populated members 
+    axios.get(`http://localhost:8000/api/league/${ id }`)
+      .then(res => {
+        console.log(res.data)
+          setLeague(res.data)
+        })
+      .catch(err => console.log(err))
 
-  // Fetch league members
-  const fetchLeagueMembers = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/league/${id}`);
-      setLeague(response.data);
+  }, [id]);
 
-      const membersData = await Promise.all(response.data.members.map(memberId => fetchUserById(memberId)));
-      setMembersDetails(membersData.filter(member => member !== null));
-    } catch (error) {
-      console.error("Error fetching league members:", error);
-    }
-  };
-
-//TO UPDATE OR JOIN THE LEAGUE
+  //TO UPDATE OR JOIN THE LEAGUE
 const handleJoinLeague = () => {
   axios.patch(`http://localhost:8000/api/league/${league._id}`, { userId: user._id })
       .then(res => {
@@ -51,22 +39,46 @@ const handleJoinLeague = () => {
 };
 
 
-  const handleDelete=(_id)=>{
+  const handleDelete= (_id) => {
     axios.delete(`http://localhost:8000/api/league/${_id}`)
-    .then(res=>{
-        console.log(res)
-        removeFromDom(_id)
+    .then(res => {
+        setUser(prevUser => ({
+          ...prevUser,
+          ['leagues'] : prevUser.leagues.filter(league => league._id != res.data._id)
+        }))
+        navigate("/dashboard")
     })
     .catch(err=>{
         console.log(err)
     })
-    navigate("/dashboard")
   }
 
-  
-  useEffect(() => {
-    fetchLeagueMembers();
-  }, [id]);
+  // // Fetch user by ID
+  // const fetchUserById = async (userId) => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:8000/api/user/${ userId }`);
+  //     return response.data; // Assuming this includes name and points
+  //   } catch (error) {
+  //     console.error("Error fetching user:", error);
+  //     return null;
+  //   }
+  // };
+
+  // // Fetch league members
+  // const fetchLeagueMembers = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:8000/api/league/${ id }`);
+  //     setLeague(response.data);
+
+  //     const membersData = await Promise.all(response.data.members.map(memberId => fetchUserById(memberId)));
+  //     setMembersDetails(membersData.filter(member => member !== null));
+  //   } catch (error) {
+  //     console.error("Error fetching league members:", error);
+  //   }
+  // };
+
+
+
 
   return (
     <div style={{ backgroundColor: "#38003c" }}>
@@ -74,7 +86,6 @@ const handleJoinLeague = () => {
       <div className="container my-4">
         <div className="row">
           <div className="col text-center">
-            <Link to="/dashboard" className="btn btn-secondary mb-3">Dashboard</Link>
             <h1 className="display-4 text-white">{league.league_name}</h1>
             <h3 className="mb-4 text-white">Members</h3>
             <table className="table table-striped">
@@ -85,7 +96,7 @@ const handleJoinLeague = () => {
               </tr>
             </thead>
             <tbody>
-              {membersDetails.map((member, index) => (
+              {league.members && league.members.map((member, index) => (
                 <tr key={index}>
                   <td>{member.firstName} {member.lastName}</td>
                   <td>{member.points}</td>
@@ -104,12 +115,12 @@ const handleJoinLeague = () => {
                 </div>
               </div>
               ) : ''}
-              {league.members && league.members.includes(user._id) || league.user === user._id ?
+              {league.members && league.members.some(member => member._id === user._id) || league.user === user._id ?
                 <p className="mt-3">
                   <span className="badge badge-success">You are a MEMBER</span>
                 </p>
               :
-                <button className="btn btn-join mt-3" onClick={handleJoinLeague}>Join League</button>
+                <button className="btn btn-join m-3" onClick={handleJoinLeague}>Join League</button>
               }
             </div>
           </div>
