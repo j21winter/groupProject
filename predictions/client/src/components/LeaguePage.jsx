@@ -9,35 +9,23 @@ const LeaguePage = () => {
   const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
   const [league, setLeague] = useState({});
-  const [membersDetails, setMembersDetails] = useState([]);
+  // const [membersDetails, setMembersDetails] = useState([]);
   const navigate = useNavigate();
   // console.log(membersDetails)
 
-  // Fetch user by ID
-  const fetchUserById = async (userId) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/user/${ userId }`);
-      return response.data; // Assuming this includes name and points
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      return null;
-    }
-  };
+  useEffect(() => {
+    // fetchLeagueMembers();
+    // get a copy of the league with populated members 
+    axios.get(`http://localhost:8000/api/league/${ id }`)
+      .then(res => {
+        console.log(res.data)
+          setLeague(res.data)
+        })
+      .catch(err => console.log(err))
 
-  // Fetch league members
-  const fetchLeagueMembers = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/league/${ id }`);
-      setLeague(response.data);
+  }, [id]);
 
-      const membersData = await Promise.all(response.data.members.map(memberId => fetchUserById(memberId)));
-      setMembersDetails(membersData.filter(member => member !== null));
-    } catch (error) {
-      console.error("Error fetching league members:", error);
-    }
-  };
-
-//TO UPDATE OR JOIN THE LEAGUE
+  //TO UPDATE OR JOIN THE LEAGUE
 const handleJoinLeague = () => {
   axios.patch(`http://localhost:8000/api/league/${league._id}`, { userId: user._id })
       .then(res => {
@@ -65,10 +53,32 @@ const handleJoinLeague = () => {
     })
   }
 
-  
-  useEffect(() => {
-    fetchLeagueMembers();
-  }, [id]);
+  // // Fetch user by ID
+  // const fetchUserById = async (userId) => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:8000/api/user/${ userId }`);
+  //     return response.data; // Assuming this includes name and points
+  //   } catch (error) {
+  //     console.error("Error fetching user:", error);
+  //     return null;
+  //   }
+  // };
+
+  // // Fetch league members
+  // const fetchLeagueMembers = async () => {
+  //   try {
+  //     const response = await axios.get(`http://localhost:8000/api/league/${ id }`);
+  //     setLeague(response.data);
+
+  //     const membersData = await Promise.all(response.data.members.map(memberId => fetchUserById(memberId)));
+  //     setMembersDetails(membersData.filter(member => member !== null));
+  //   } catch (error) {
+  //     console.error("Error fetching league members:", error);
+  //   }
+  // };
+
+
+
 
   return (
     <div style={{ backgroundColor: "#38003c" }}>
@@ -86,7 +96,7 @@ const handleJoinLeague = () => {
               </tr>
             </thead>
             <tbody>
-              {membersDetails.map((member, index) => (
+              {league.members && league.members.map((member, index) => (
                 <tr key={index}>
                   <td>{member.firstName} {member.lastName}</td>
                   <td>{member.points}</td>
@@ -105,7 +115,7 @@ const handleJoinLeague = () => {
                 </div>
               </div>
               ) : ''}
-              {league.members && league.members.includes(user._id) || league.user === user._id ?
+              {league.members && league.members.some(member => member._id === user._id) || league.user === user._id ?
                 <p className="mt-3">
                   <span className="badge badge-success">You are a MEMBER</span>
                 </p>
