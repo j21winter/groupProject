@@ -94,26 +94,29 @@ return (
 
 
             {/* LOGIN FORM */}
-            <form onSubmit={(e) => handleLoginSubmit(e)}>
+            <form onSubmit={(e) => handleLoginSubmit(e)} className='shadow bg-white rounded-3 overflow-hidden border border-1 border-white'>
 
-            <div className='d-flex align-items-center text-center ps-2 pe-2 mb-3'  style={{color: '#26637b', backgroundColor: "rgb(192, 214, 223)"}}>
-                    <p className='fs-5 mx-auto m-0 text-center '>Login</p>
+                <div className='d-flex align-items-center text-center ps-2 pe-2 '  style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>
+                    <p className='fs-5 mx-auto m-0 text-center text-white '>Login</p>
                 </div>
-
-                <div className="input-group input-group-sm border-0 mb-3 px-2">
-                    <label htmlFor="email" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Email </label>
-                    <input type="email" name='email' className="form-control border-0 text-end" value={loginInput.email} onChange={(e) => handleLoginInputChange(e)}/>
-                </div>
-                {errors.login.email ? <p className='text-white text-center'>{errors.login.email}</p> : ""}
-
-                <div className="input-group input-group-sm border-0 mb-3 px-2">
-                    <label htmlFor="password" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Password </label>
-                    <input type="password" name='password' className="form-control border-0 text-end" value={loginInput.password} onChange={(e) => handleLoginInputChange(e)}/>
-                </div>
-                {errors.login.password ? <p className='text-white text-center'>{errors.login.password}</p> : ""}
-                {errors.login.error ? <p className='text-white text-center'>{errors.login.error}</p> : ""}
                 
-                <button className="btn btn-sm w-100 rounded-top-0 " type="submit" style={{backgroundColor: "#84a59d", color: "#ffffff"}}>Login</button>
+                <div className="formInfo" style={{backgroundColor: "#38003c"}}>
+                    <div className="input-group input-group-sm border-0 pt-3 mb-3 px-2">
+                        <label htmlFor="email" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Email </label>
+                        <input type="email" name='email' className="form-control border-0 text-end" value={loginInput.email} onChange={(e) => handleLoginInputChange(e)}/>
+                    </div>
+                    {errors.login.email ? <p className='text-white text-center'>{errors.login.email}</p> : ""}
+
+                    <div className="input-group input-group-sm border-0 mb-3 px-2 ">
+                        <label htmlFor="password" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Password </label>
+                        <input type="password" name='password' className="form-control border-0 text-end" value={loginInput.password} onChange={(e) => handleLoginInputChange(e)}/>
+                    </div>
+                    {errors.login.password ? <p className='text-white text-center'>{errors.login.password}</p> : ""}
+                    {errors.login.error ? <p className='text-white text-center'>{errors.login.error}</p> : ""}
+                    
+                    <button className="btn btn-sm w-100 rounded-top-0 " type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Login</button>
+
+                </div>
 
             </form>
         </div>
