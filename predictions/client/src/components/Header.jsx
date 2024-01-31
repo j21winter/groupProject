@@ -10,14 +10,14 @@ const Header = () => {
   
   
     // Logout user
-    const handleLogout = async (e) => {
+    const handleLogout = (e) => {
       e.preventDefault()
-      await localStorage.removeItem("user")
-      await localStorage.removeItem("scoresAndPredictions")
+      localStorage.removeItem("user")
+      localStorage.removeItem("scoresAndPredictions")
       axios.post('http://localhost:8000/api/logout' , {}, {withCredentials: true})
           .then(res => {
               setUser({})
-              navigate('/login')
+              navigate('/')
           })
           .catch(err => console.log(err))
         } 
