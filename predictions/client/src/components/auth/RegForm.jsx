@@ -4,7 +4,7 @@ import UserContext from '../../context/userContext';
 import axios from 'axios';
 
 const RegForm = (props) => {
-    const {errors, setErrors} = props
+    const {errors, setErrors, setComponent} = props
     const { saveLoggedInUser, setScoresAndPredictions } = useContext(UserContext)
     const navigate = useNavigate();
 
@@ -117,14 +117,14 @@ const RegForm = (props) => {
 
     return (
     <>{/* REGISTRATION FORM */}
-        <div id='registration' className='card p-0 m-2 w-100 rounded rounded 2 overflow-hidden border-0 ' style={{ backgroundColor: "rgb(192, 214, 223)"}}>
+        <div id='registration' className='card p-0 w-100 rounded rounded-2 overflow-hidden border-0 bg-white'>
 
             <form onSubmit={(e) => handleRegSubmit(e)} className='shadow bg-white rounded-3 overflow-hidden border border-1 border-white' >
                 <div className='d-flex align-items-center text-center ps-2 pe-2 '  style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>
                     <p className='fs-5 mx-auto m-0 text-center text-white '>Registration</p>
                 </div>
 
-                <div className="formInfo" style={{backgroundColor: "#38003c"}}>
+                <div className="formInfo bg-white text-center" >
 
                     <div className="input-group input-group-sm border-0 pt-3 mb-3 px-2 " >
                         <label htmlFor="firstName" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>First name </label>
@@ -156,7 +156,8 @@ const RegForm = (props) => {
                     </div>
                     {errors.registration.confirmPassword ? <p className='text-white text-center'>{errors.registration.confirmPassword}</p> : ""}
 
-                    <button className="btn btn-sm w-100 rounded-top-0 " type="submit" style={{backgroundColor: "#00ff85", color:"#38003c"}}>Register</button>
+                    <button className="btn btn-sm m-1" type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Login</button>
+                    <button className="btn btn-sm btn-secondary  m-1" type="submit" onClick={() => setComponent("")}>Cancel</button>
                 </div>
 
 

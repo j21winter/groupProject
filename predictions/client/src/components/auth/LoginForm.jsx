@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import UserContext from '../../context/userContext';
 
 const LoginForm = (props) => {
-    const {errors, setErrors} = props
+    const {errors, setErrors, setComponent} = props
     const { saveLoggedInUser, setScoresAndPredictions } = useContext(UserContext)
     const navigate = useNavigate()
 
@@ -90,18 +90,18 @@ const LoginForm = (props) => {
 
 return (
     <>
-        <div id='login' className='card p-0 m-2 w-100 rounded rounded 2 overflow-hidden h-auto border-0 ' style={{ backgroundColor: "#26637b"}}>
+        <div id='login' className='card p-0 w-100 rounded rounded-2 overflow-hidden border-0'>
 
 
             {/* LOGIN FORM */}
-            <form onSubmit={(e) => handleLoginSubmit(e)} className='shadow bg-white rounded-3 overflow-hidden border border-1 border-white'>
+            <form onSubmit={(e) => handleLoginSubmit(e)} className='shadow bg-white rounded-3 overflow-hidden border border-1 border-white text-center'>
 
                 <div className='d-flex align-items-center text-center ps-2 pe-2 '  style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>
                     <p className='fs-5 mx-auto m-0 text-center text-white '>Login</p>
                 </div>
                 
-                <div className="formInfo" style={{backgroundColor: "#38003c"}}>
-                    <div className="input-group input-group-sm border-0 pt-3 mb-3 px-2">
+                <div className="formInfo" >
+                    <div className="input-group input-group-sm border-0 pt-3 mb-3 px-2 ">
                         <label htmlFor="email" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Email </label>
                         <input type="email" name='email' className="form-control border-0 text-end" value={loginInput.email} onChange={(e) => handleLoginInputChange(e)}/>
                     </div>
@@ -114,7 +114,8 @@ return (
                     {errors.login.password ? <p className='text-white text-center'>{errors.login.password}</p> : ""}
                     {errors.login.error ? <p className='text-white text-center'>{errors.login.error}</p> : ""}
                     
-                    <button className="btn btn-sm w-100 rounded-top-0 " type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Login</button>
+                    <button className="btn btn-sm m-1" type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Login</button>
+                    <button className="btn btn-sm btn-secondary  m-1" type="submit" onClick={() => setComponent("")}>Cancel</button>
 
                 </div>
 

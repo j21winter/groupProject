@@ -74,7 +74,6 @@ function App() {
       <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions, teamNames, leagues, setLeagues }}>
           <Routes>
               <Route path='/' element={<Homepage/>} />  
-              <Route path='/login' element={<LoginAndReg />} />
               <Route path='/dashboard' element={<Dashboard />}/>
               <Route path='/predictions' element={<Predictions/>}/>
               <Route path='/oneLeague/:id' element={<LeaguePage/>}/>
