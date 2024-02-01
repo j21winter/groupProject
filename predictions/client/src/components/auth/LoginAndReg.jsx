@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import RegForm from './RegForm';
 import LoginForm from './LoginForm';
 
-
-
 const LoginAndReg = () => {
+
   // Errors
   const [errors, setErrors] = useState({
     login : {

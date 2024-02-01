@@ -1,6 +1,5 @@
 import React, {useContext, useState} from 'react';
 import FootballWidget from '../../LiveApi/FootballWidget';
-import { useNavigate } from 'react-router-dom';
 // import '../../App.css';
 import welcomingHeader from '../../assets/Black White Minimalist Animation Logo Video  (1).gif'
 import ad from '../../assets/ad.gif'
@@ -8,9 +7,8 @@ import LoginForm from '../auth/LoginForm'
 import RegForm from '../auth/RegForm'
 
 
+const Homepage = () => {
 
-export default function Homepage() {
-const Navigate = useNavigate();
 const [component, setComponent ] = useState("")
 
 
@@ -77,3 +75,5 @@ return (
     </div>
 );
 }
+
+export default Homepage

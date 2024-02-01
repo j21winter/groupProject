@@ -6,7 +6,7 @@ const FootballWidget = () => {
     const [fixtures, setFixtures] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    console.log(fixtures)
+
 
     const getFormattedDate = () => {
         const today = new Date();
