@@ -172,7 +172,7 @@ const submitPredictions = async (e) => {
               <button className="btn btn-sm fw-semibold border-0  mx-1 mb-1 shadow " style={{backgroundColor: "#00ff85"}} onClick={(e) => submitPredictions(e)}>Submit your Predictions</button>
             </div>
             {Object.entries(scoresAndPredictions).map(([key, value]) => (
-              <button key={key} className='btn shadow text-dark-emphasis fw-bold mb-1 w-100' onClick={(e) => viewGameWeek(e, key)}>{value.gameWeekInfo ? value.gameWeekInfo.name : "unassigned Games"} </button>
+              <button key={key} className='btn shadow text-dark-emphasis fw-bold mb-1 w-100' onClick={(e) => viewGameWeek(e, key)}>{value.gameWeekInfo ? value.gameWeekInfo.name : ""} </button>
             ))} 
           </div>
           {/* right */}

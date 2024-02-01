@@ -3,7 +3,7 @@ import {Routes, Route, Navigate, useParams} from 'react-router-dom'
 import axios from 'axios'
 import UserContext from './context/userContext'
 import ProtectedRoute from './components/protected/ProtectedRoute'
-import LoginAndReg from './components/auth/LoginAndReg'
+
 import Dashboard from './components/userDashboard/Dashboard'
 import Predictions from './components/Predictions'
 import LeaguePage from './components/LeaguePage'
