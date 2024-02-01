@@ -4,15 +4,11 @@ import {useParams, Link} from 'react-router-dom'
 import UserContext from '../../context/userContext';
 
 export const DashboardMid = () => {
-  const {user, setUser} = useContext(UserContext)
-  const {teamNames, setTeamNames} = useContext(UserContext)
-  const {scoresAndPredictions, setScoresAndPredictions} = useContext(UserContext)
-  const [users, setUsers] = useState([])
-  const [upcomingGames, setUpcomingGames] = useState({})
+  const {teamNames, scoresAndPredictions} = useContext(UserContext)
+  const [users, setUsers]= useState([])
+  const [upcominggames, setUpcominggames] = useState({})
   const [currentGameWeek, setCurrentGameWeek] = useState(0);
-  const gameWeeks = Object.keys(upcomingGames);
-  const [countdown, setCountdown] = useState({})
-  const [gameWeekName, setGameWeekName] = useState("")
+  const gameWeeks = Object.keys(upcominggames);
 
   {/* api call to get all users*/}
   useEffect(() => {
