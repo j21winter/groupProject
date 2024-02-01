@@ -15,7 +15,7 @@ const UpdateLeague = (props) => {
 
     //get league info
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/league/${id}`)
+        axios.get(`http://localhost:8000/api/league/${id}`, {withCredentials: true})
             .then(res => {
                 setLeagueName(res.data.league_name)
             })
@@ -34,6 +34,7 @@ const UpdateLeague = (props) => {
             })
     
 }
+console.log(leagueName)
   return (
     <>
         <div style={{ backgroundColor: "#38003c" }}>
@@ -41,7 +42,7 @@ const UpdateLeague = (props) => {
             <div className="content text-center p-3">
                 <h1 style={{color: "white"}}>Update Your League Name</h1>
                 <form onSubmit={handleSubmit} >
-                    <div class="form-group row d-flex justify-content-center">
+                    <div className="form-group row d-flex justify-content-center">
                         <label  for="leagueName" style={{color: "white"}}>League Name:</label>
                         <input className="form-control w-25 m-3" style={{border: "1px solid #00ff85"}} id="leagueName" type="text" name="league_name" value={leagueName} onChange={(e)=>{setLeagueName(e.target.value)} }/>
                         { errors.league_name ? 
