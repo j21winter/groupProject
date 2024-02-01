@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import {Routes, Route, Navigate, useParams} from 'react-router-dom'
 import axios from 'axios'
 import UserContext from './context/userContext'
-
+import ProtectedRoute from './components/protected/ProtectedRoute'
 import LoginAndReg from './components/auth/LoginAndReg'
 import Dashboard from './components/userDashboard/Dashboard'
 import Predictions from './components/Predictions'
@@ -70,13 +70,29 @@ function App() {
   return (
     <>
       <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions, teamNames, leagues, setLeagues }}>
-          <Routes>
-              <Route path='/' element={<Homepage/>} />  
-              <Route path='/dashboard' element={<Dashboard />}/>
-              <Route path='/predictions' element={<Predictions/>}/>
-              <Route path='/oneLeague/:id' element={<LeaguePage/>}/>
-              <Route path='/update/:id' element={<UpdateLeague/>}/>
-          </Routes>
+        <Routes>
+          <Route path='/' element={<Homepage/>} />
+          <Route path='/dashboard' element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }/>
+          <Route path='/predictions' element={
+            <ProtectedRoute>
+              <Predictions/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/oneLeague/:id' element={
+            <ProtectedRoute>
+              <LeaguePage/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/update/:id' element={
+            <ProtectedRoute>
+              <UpdateLeague/>
+            </ProtectedRoute>
+          }/>
+        </Routes>
       </UserContext.Provider>
       
     </>
