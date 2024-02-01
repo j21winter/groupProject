@@ -5,7 +5,7 @@ import welcomingHeader from '../../assets/Black White Minimalist Animation Logo 
 import ad from '../../assets/ad.gif'
 import LoginForm from '../auth/LoginForm'
 import RegForm from '../auth/RegForm'
-import PremierLeagueStanding from '../../LiveApi/PremireLeagueStanding';
+import PremierLeagueStanding from '../../LiveApi/PremierLeagueStanding';
 
 
 const Homepage = () => {
