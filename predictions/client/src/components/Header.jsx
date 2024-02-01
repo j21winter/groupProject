@@ -7,8 +7,6 @@ import axios from 'axios'
 const Header = () => {
     const {user, setUser, scoresAndPredictions} = useContext(UserContext)
     const navigate = useNavigate()
-    const [countdown, setCountdown] = useState({})
-    const [gameWeekName, setGameWeekName] = useState("")
 
 
 
@@ -82,10 +80,8 @@ const Header = () => {
           <h1 className='text-white'>Premier League Predictions</h1>
         </div>
         <div className='toolBar bg-white p-2 d-flex justify-content-between align-items-center'>
-          <p className='btn shadow text-dark-emphasis fw-bold m-0' style={{borderColor: "#00ff85"}}>Welcome, {user.firstName}.</p>
-          <p className='btn shadow text-dark-emphasis fw-bold m-0' style={{borderColor: "#00ff85"}}>Your points: {user.points}</p>
-          {countdown && countdown.seconds ? 
-          <p className='btn shadow text-dark-emphasis fw-bold m-0' style={{borderColor: "#00ff85"}}>{countdown.days}d, {countdown.hours}h, {countdown.minutes}m, {countdown.seconds}s to {gameWeekName} Deadline</p>  : ""}
+          <p className='text-dark-emphasis fw-bold m-0' style={{borderColor: "#00ff85"}}>Welcome, {user.firstName}. You have {user.points} points.</p>
+          {/* <p className='btn shadow text-dark-emphasis fw-bold m-0' style={{borderColor: "#00ff85"}}>Your points: {user.points}</p> */}
           <Link to={"/dashboard"} className='btn shadow text-dark-emphasis fw-bold' style={{borderColor: "#00ff85"}}>Dashboard</Link>
           <Link to={"/predictions"} className='btn shadow text-dark-emphasis fw-bold' style={{borderColor: "#00ff85"}}>Your Predictions</Link>
 

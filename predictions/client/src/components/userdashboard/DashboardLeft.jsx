@@ -6,33 +6,14 @@ import UserContext from '../../context/userContext';
 
 const DashboardLeft = () => {
 
-  const [leagues, setLeagues]=useState([])
-  const { user, setUser } = useContext(UserContext)
+  const [ leagues, setLeagues] = useState([])
+  const { user, setUser } = useContext( UserContext )
   const [errors, setErrors] = useState({
     leagues : {
       league_name: ""
     },
   })
   const [leagueInput, setLeagueInput] = useState({league_name: "", user: user._id})
-
-// Do not need this code bc we are mapping through leagues via user
-//   const allLeagues = () => {
-    
-// };
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/allLeagues")
-    .then(res => {
-      
-        setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
-        // console.log("LEAGUES", leagues)
-    })
-    .catch(err => {
-        console.log(err);
-    });
-      // console.log("LEAGUES2", leagues)
-  }, []);
-
 
   //submitting league form
   const handleLeagueSubmit = (e) => {
@@ -86,9 +67,9 @@ const DashboardLeft = () => {
               {errors.league_name ? <p style={{color:"red"}}>{errors.league_name.message}</p> : ""}
             </form>
           </div>
-          <h3 className='fs-5 text-center text-white fw-bold w-100 p-2 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Your Leagues</h3>
+          <h3 className='fs-5 text-center text-white fw-bold w-100 p-2 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Leagues You Own</h3>
           <div className='px-2'>
-            {leagues.map((league)=>(
+            {user.leagues.map((league)=>(
 
               <div key={league._id}>
                   <Link to={`/oneLeague/${league._id}`} className='btn shadow text-dark-emphasis fw-bold mb-1 w-100'>{league.league_name}</Link>

@@ -11,6 +11,9 @@ export const DashboardMid = () => {
   const [upcominggames, setUpcominggames] = useState({})
   const [currentGameWeek, setCurrentGameWeek] = useState(0);
   const gameWeeks = Object.keys(upcominggames);
+  const [countdown, setCountdown] = useState({})
+  const [gameWeekName, setGameWeekName] = useState("")
+
 
   const goToNextWeek = () => {
         setCurrentGameWeek(current => (current + 1) % gameWeeks.length);
@@ -52,9 +55,6 @@ export const DashboardMid = () => {
     setUpcominggames(upcomingGamesByWeek);
 };
 
-  
-
-
   {/* api call to get all users*/}
   useEffect(()=>{
 
@@ -78,6 +78,58 @@ let localDeadline = deadline.toLocaleString('en-US', {userTimeZone})
 return localDeadline
 }
 
+useEffect(() => {
+  const intervalId = setInterval(() => {
+    makeCountdown();
+  }, 1000);
+
+  return () => {
+    // Clear the interval to prevent memory leaks
+    clearInterval(intervalId);
+  };
+  
+
+}, [])
+
+const makeCountdown = () => {
+  const deadline = getDeadline()
+  const time = timeToDeadLine(deadline)
+  setCountdown(time)
+  return time
+}
+
+  // Deadline Countdown
+  const getDeadline = () => {
+    const nextGameWeek = Object.entries(scoresAndPredictions).filter(([key, value]) => value.gameWeekInfo && value.gameWeekInfo.is_next === true)[0][1]
+
+    setGameWeekName(nextGameWeek.gameWeekInfo.name)
+    const nextDeadline = new Date(nextGameWeek.gameWeekInfo.deadline_time)
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localDeadline = nextDeadline.toLocaleString('en-US', {userTimeZone})
+
+    return localDeadline
+  }
+
+  const timeToDeadLine = (deadline) => {
+    const now = new Date().getTime();
+    const target = new Date(deadline).getTime();
+
+    const difference = target - now;
+
+    if(difference <= 0) {
+      return {days: 0, hours: 0, minutes : 0, seconds: 0}
+    }
+
+    const days = Math.floor(difference /(1000 * 60 * 60 * 24))
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+
+    return { days, hours, minutes, seconds };
+  }
+
+
   return (
     <>
       <div className="bg-white rounded rounded-3 overflow-hidden mx-3 border border-1 border-white">
@@ -92,7 +144,11 @@ return localDeadline
           }
         </div>
         <div>
-          <h3 className='text-center text-white fw-bold p-2 m-0 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Future Games</h3>
+          <div className='text-center text-white fw-bold p-2 m-0 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>
+            <h3 className='text-center text-white fw-bold p-2 m-0 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Future Games</h3>
+            {countdown && countdown.seconds ? 
+            <p className='text-white fw-bold m-0' style={{borderColor: "#00ff85"}}>{countdown.days} Days, {countdown.hours} Hours, {countdown.minutes} Minutes, {countdown.seconds} Seconds to {gameWeekName} Deadline</p>  : ""}
+          </div>
           {gameWeeks.length > 0 && (
               <div className='p-1'>
                   <h3>{gameWeeks[currentGameWeek]}</h3>
