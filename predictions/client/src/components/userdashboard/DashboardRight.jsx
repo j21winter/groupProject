@@ -15,16 +15,12 @@ const DashboardRight = () => {
   useEffect(()=>{
     axios.get("http://localhost:8000/api/allLeagues")
     .then(res => {
-        // setNotUsersLeagues( res.data.allLeagues.filter( league => league.user != user._id))
-      //   const notUser = res.data.allLeagues.filter(league => league.user != user._id)
-      // const finalList = notUser.filter(league => league.members.includes(user._id) ? null : league)
-      // console.log("FINAL LIST", finalList)
       const finalList = res.data.allLeagues.filter(league => league.user !== user._id && !league.members.some(member => member._id === user._id));
       setNotUsersLeagues(finalList)
 
       const userLeagueList=res.data.allLeagues.filter(league=> league.members.some(member => member._id === user._id) )
       setUsersLeagues(userLeagueList)
-      console.log(userLeagueList)
+
     })
     .catch(err=>{
         console.log(err)

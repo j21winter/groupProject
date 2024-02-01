@@ -25,7 +25,7 @@ const DashboardLeft = () => {
     .then(res => {
       
         setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
-        console.log("LEAGUES", leagues)
+        // console.log("LEAGUES", leagues)
     })
     .catch(err => {
         console.log(err);
