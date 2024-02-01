@@ -18,6 +18,7 @@ const UpdateLeague = (props) => {
         axios.get(`http://localhost:8000/api/league/${id}`, {withCredentials: true})
             .then(res => {
                 setLeagueName(res.data.league_name)
+
             })
             .catch(err => console.log(err))
     }, [])
@@ -26,6 +27,11 @@ const UpdateLeague = (props) => {
         e.preventDefault();
         axios.patch(`http://localhost:8000/api/league/info/${id}`, {leagueName}, {withCredentials: true})
             .then(res => {
+                console.log("Setting user")
+                setUser(prevUser => ({
+                    ...prevUser, 
+                    ["leagues"] : prevUser.leagues.map((league) => league._id === res.data._id ? res.data : league)
+                }))
                 navigate(`/oneLeague/${id}`); 
             })
             .catch(err => {
@@ -34,7 +40,7 @@ const UpdateLeague = (props) => {
             })
     
 }
-console.log(leagueName)
+
   return (
     <>
         <div style={{ backgroundColor: "#38003c" }}>
