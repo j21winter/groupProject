@@ -10,6 +10,31 @@ export const DashboardMid = () => {
   const [currentGameWeek, setCurrentGameWeek] = useState(0);
   const gameWeeks = Object.keys(upcominggames);
 
+  {/* api call to get all users*/}
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/users", {withCredentials: true})
+    .then(res => {
+        setUsers(res.data.allUsers)
+        checkFutureGames()
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+  }, [])
+
+  // Set the countdown interval
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      makeCountdown();
+    }, 1000);
+  
+    return () => {
+      // Clear the interval to prevent memory leaks
+      clearInterval(intervalId);
+    };
+  }, [])
+
+  
   const goToNextWeek = () => {
         setCurrentGameWeek(current => (current + 1) % gameWeeks.length);
   };
@@ -18,7 +43,7 @@ export const DashboardMid = () => {
         setCurrentGameWeek(current => (current - 1 + gameWeeks.length) % gameWeeks.length);
   };
 
-  const checkfuturegames = () => {
+  const checkFutureGames = () => {
     let upcomingGamesByWeek = {};
     for (const gameWeekKey in scoresAndPredictions) {
         const gameWeek = scoresAndPredictions[gameWeekKey];
@@ -47,34 +72,57 @@ export const DashboardMid = () => {
             console.warn(`Missing gameWeekInfo or games for game week: ${gameWeekKey}`);
         }
     }
-    setUpcominggames(upcomingGamesByWeek);
-};
+    setUpcomingGames(upcomingGamesByWeek);
+  };
 
-  
-
-
-  {/* api call to get all users*/}
-  useEffect(()=>{
-
-    axios.get("http://localhost:8000/api/users")
-    .then(res=>{
-
-        setUsers(res.data.allUsers)
-        checkfuturegames()
-    })
-    .catch(err=>{
-        console.log(err)
-    })
-  }, [])
 
 // Convert to US time 
-const localDeadline = date => {
-let deadline = new Date(date)
-let userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-let localDeadline = deadline.toLocaleString('en-US', {userTimeZone})
+  const localDeadline = date => {
+    let deadline = new Date(date)
+    let userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    let localDeadline = deadline.toLocaleString('en-US', {userTimeZone})
 
-return localDeadline
-}
+    return localDeadline
+  }
+
+  const makeCountdown = () => {
+    const deadline = getDeadline()
+    const time = timeToDeadLine(deadline)
+    setCountdown(time)
+    return time
+  }
+
+  // Deadline Countdown
+  const getDeadline = () => {
+    const nextGameWeek = Object.entries(scoresAndPredictions).filter(([key, value]) => value.gameWeekInfo && value.gameWeekInfo.is_next === true)[0][1]
+
+    setGameWeekName(nextGameWeek.gameWeekInfo.name)
+    const nextDeadline = new Date(nextGameWeek.gameWeekInfo.deadline_time)
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localDeadline = nextDeadline.toLocaleString('en-US', {userTimeZone})
+
+    return localDeadline
+  }
+
+  const timeToDeadLine = (deadline) => {
+    const now = new Date().getTime();
+    const target = new Date(deadline).getTime();
+
+    const difference = target - now;
+
+    if(difference <= 0) {
+      return {days: 0, hours: 0, minutes : 0, seconds: 0}
+    }
+
+    const days = Math.floor(difference /(1000 * 60 * 60 * 24))
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+
+    return { days, hours, minutes, seconds };
+  }
+
 
   return (
     <>
@@ -90,11 +138,15 @@ return localDeadline
           }
         </div>
         <div>
-          <h3 className='text-center text-white fw-bold p-2 m-0 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Future Games</h3>
+          <div className='text-center text-white fw-bold p-2 m-0 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>
+            <h3 className='text-center text-white fw-bold p-2 m-0 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Future Games</h3>
+            {countdown && countdown.seconds ? 
+            <p className='text-white fw-bold m-0' style={{borderColor: "#00ff85"}}>{countdown.days} Days, {countdown.hours} Hours, {countdown.minutes} Minutes, {countdown.seconds} Seconds to {gameWeekName} Deadline</p>  : ""}
+          </div>
           {gameWeeks.length > 0 && (
               <div className='p-1'>
                   <h3>{gameWeeks[currentGameWeek]}</h3>
-                  {upcominggames[gameWeeks[currentGameWeek]].map((game, index) => (
+                  {upcomingGames[gameWeeks[currentGameWeek]].map((game, index) => (
                       <div key={index} className='d-flex w-100 justify-content-evenly btn shadow text-dark-emphasis fw-bold mb-1 w-100 '>
                           <p className='m-0'>{game.teamH} vs {game.teamA}</p>
                           <p className='m-0'>{localDeadline(game.kickoffTime)}</p>

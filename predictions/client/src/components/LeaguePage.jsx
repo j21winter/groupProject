@@ -9,16 +9,13 @@ const LeaguePage = () => {
   const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
   const [league, setLeague] = useState({});
-  // const [membersDetails, setMembersDetails] = useState([]);
   const navigate = useNavigate();
-  // console.log(membersDetails)
+
 
   useEffect(() => {
-    // fetchLeagueMembers();
     // get a copy of the league with populated members 
-    axios.get(`http://localhost:8000/api/league/${ id }`)
+    axios.get(`http://localhost:8000/api/league/${ id }`, {withCredentials: true})
       .then(res => {
-        // console.log(res.data)
           setLeague(res.data)
         })
       .catch(err => console.log(err))
@@ -26,21 +23,32 @@ const LeaguePage = () => {
   }, [id]);
 
   //TO UPDATE OR JOIN THE LEAGUE
-const handleJoinLeague = () => {
-  axios.patch(`http://localhost:8000/api/league/${league._id}`, { userId: user._id })
-      .then(res => {
-          // console.log(res);
-          // console.log("Joined successfully")
-          navigate("/dashboard")
-      })
-      .catch(err => {
-          console.log(err);
-      });
-};
+  const handleJoinLeague = (e) => {
+    e.preventDefault()
+    axios.patch(`http://localhost:8000/api/league/${league._id}`, { userId: user._id }, {withCredentials: true})
+        .then(res => {
+            setLeague(res.data)
+        })
+        .catch(err => {
+            console.log(err);
+        });
+  };
 
+  // Leave league
+  const handleLeaveLeague = (e) => {
+    e.preventDefault()
+    axios.patch(`http://localhost:8000/api/league/leave/${league._id}`, { userId: user._id }, {withCredentials: true})
+        .then(res => {
+            navigate("/dashboard")
+        })
+        .catch(err => {
+            console.log(err);
+        });
+  }
 
-  const handleDelete= (_id) => {
-    axios.delete(`http://localhost:8000/api/league/${_id}`)
+// DELETE LEAGUE
+  const handleDelete = (_id) => {
+    axios.delete(`http://localhost:8000/api/league/${_id}`, {withCredentials: true})
     .then(res => {
         setUser(prevUser => ({
           ...prevUser,
@@ -52,33 +60,6 @@ const handleJoinLeague = () => {
         console.log(err)
     })
   }
-
-  // // Fetch user by ID
-  // const fetchUserById = async (userId) => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:8000/api/user/${ userId }`);
-  //     return response.data; // Assuming this includes name and points
-  //   } catch (error) {
-  //     console.error("Error fetching user:", error);
-  //     return null;
-  //   }
-  // };
-
-  // // Fetch league members
-  // const fetchLeagueMembers = async () => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:8000/api/league/${ id }`);
-  //     setLeague(response.data);
-
-  //     const membersData = await Promise.all(response.data.members.map(memberId => fetchUserById(memberId)));
-  //     setMembersDetails(membersData.filter(member => member !== null));
-  //   } catch (error) {
-  //     console.error("Error fetching league members:", error);
-  //   }
-  // };
-
-
-
 
   return (
     <div style={{ backgroundColor: "#38003c" }}>
@@ -116,11 +97,13 @@ const handleJoinLeague = () => {
               </div>
               ) : ''}
               {league.members && league.members.some(member => member._id === user._id) || league.user === user._id ?
-                <p className="mt-3">
-                  <span className="badge badge-success">You are a MEMBER</span>
-                </p>
+                <div className='mb-3'>
+                  <p className="badge badge-success">You are a MEMBER</p>
+                  { league.user === user._id ? "" : <button className="btn btn-join m-3" onClick={(e) => handleLeaveLeague(e)}>Leave League</button>} 
+                </div>
+                
               :
-                <button className="btn btn-join m-3" onClick={handleJoinLeague}>Join League</button>
+                <button className="btn btn-join m-3" onClick={(e) => handleJoinLeague(e)}>Join League</button>
               }
             </div>
           </div>

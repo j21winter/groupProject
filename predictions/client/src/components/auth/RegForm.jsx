@@ -91,22 +91,17 @@ const RegForm = (props) => {
         // make API call to register
         axios.post('http://localhost:8000/api/register', regInput, {withCredentials: true})
             .then(res => {
-                // res.data.user = updated user with points
-                console.log("back in reg form")
                 saveLoggedInUser(res.data.user)
-                // res.data.scoresAndPredictions = scores and predictions // add to state somehow
                 setScoresAndPredictions(res.data.scoresAndPredictions)
-                // redirect to dashboard
                 navigate('/dashboard') 
             })
             .catch(err => {
-                console.log(err)
                 setErrors( prevErrors => {
                     const formErrors = err.response.data.errors
                     const updatedErrors = {...prevErrors}
-                for(const field in formErrors){
-                    const message = formErrors[field]["message"]
-                    updatedErrors["registration"][field] = message
+                    for(const field in formErrors){
+                        const message = formErrors[field]["message"]
+                        updatedErrors["registration"][field] = message
                 }
                 return updatedErrors;
             })

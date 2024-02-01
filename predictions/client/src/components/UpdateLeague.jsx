@@ -17,20 +17,15 @@ const UpdateLeague = (props) => {
     useEffect(() => {
         axios.get(`http://localhost:8000/api/league/${id}`)
             .then(res => {
-                // console.log(res)
-                // console.log(res.data)
                 setLeagueName(res.data.league_name)
             })
             .catch(err => console.log(err))
     }, [])
 
     const handleSubmit=(e)=>{
-        // console.log("LEAGUE NAME", leagueName)
         e.preventDefault();
-        
-        axios.patch(`http://localhost:8000/api/league/info/${id}`, {leagueName})
+        axios.patch(`http://localhost:8000/api/league/info/${id}`, {leagueName}, {withCredentials: true})
             .then(res => {
-                // console.log("RES", res);
                 navigate(`/oneLeague/${id}`); 
             })
             .catch(err => {
@@ -39,14 +34,12 @@ const UpdateLeague = (props) => {
             })
     
 }
-// console.log(leagueName)
   return (
     <>
         <div style={{ backgroundColor: "#38003c" }}>
         <Header />
             <div className="content text-center p-3">
                 <h1 style={{color: "white"}}>Update Your League Name</h1>
-                {/* <p><Link to={"/dashboard"}>Dashboard</Link></p> */}
                 <form onSubmit={handleSubmit} >
                     <div class="form-group row d-flex justify-content-center">
                         <label  for="leagueName" style={{color: "white"}}>League Name:</label>

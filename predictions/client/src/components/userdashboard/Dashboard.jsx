@@ -8,21 +8,7 @@ import axios from 'axios'
 
 
 const Dashboard = () => {
-    // const allLeagues = () => {
-    //     axios.get("http://localhost:8000/api/allLeagues")
-    //     .then(res => {
-    //         setLeagues(res.data.allLeagues.filter(league => league.user === user._id));
-    //         console.log("LEAGUES", leagues)
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //     });
-    // };
-    
-    //   useEffect(() => {
-    //     allLeagues()
-    //   }, []);
-  
+
   return (
     <>
       <div>
