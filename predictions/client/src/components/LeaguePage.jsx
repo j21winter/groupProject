@@ -18,7 +18,7 @@ const LeaguePage = () => {
     // get a copy of the league with populated members 
     axios.get(`http://localhost:8000/api/league/${ id }`)
       .then(res => {
-        console.log(res.data)
+        // console.log(res.data)
           setLeague(res.data)
         })
       .catch(err => console.log(err))
@@ -29,8 +29,8 @@ const LeaguePage = () => {
 const handleJoinLeague = () => {
   axios.patch(`http://localhost:8000/api/league/${league._id}`, { userId: user._id })
       .then(res => {
-          console.log(res);
-          console.log("Joined successfully")
+          // console.log(res);
+          // console.log("Joined successfully")
           navigate("/dashboard")
       })
       .catch(err => {

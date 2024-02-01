@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import FootballWidget from '../../LiveApi/FootballWidget';
 import { useNavigate } from 'react-router-dom';
 // import '../../App.css';
@@ -8,9 +8,11 @@ import LoginForm from '../auth/LoginForm'
 import RegForm from '../auth/RegForm'
 
 
+
 export default function Homepage() {
 const Navigate = useNavigate();
 const [component, setComponent ] = useState("")
+
 
  // Errors
  const [errors, setErrors] = useState({

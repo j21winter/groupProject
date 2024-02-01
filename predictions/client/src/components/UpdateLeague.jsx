@@ -17,31 +17,29 @@ const UpdateLeague = (props) => {
     useEffect(() => {
         axios.get(`http://localhost:8000/api/league/${id}`)
             .then(res => {
-                console.log(res)
-                console.log(res.data)
+                // console.log(res)
+                // console.log(res.data)
                 setLeagueName(res.data.league_name)
             })
             .catch(err => console.log(err))
     }, [])
 
     const handleSubmit=(e)=>{
-        console.log("LEAGUE NAME", leagueName)
+        // console.log("LEAGUE NAME", leagueName)
         e.preventDefault();
         
         axios.patch(`http://localhost:8000/api/league/info/${id}`, {leagueName})
             .then(res => {
-                console.log("RES", res);
+                // console.log("RES", res);
                 navigate(`/oneLeague/${id}`); 
             })
             .catch(err => {
                 console.log("ERR", err)
-
                 setErrors(err.response.data.error.errors);
-                console.log("error1", errors)
             })
     
 }
-console.log(leagueName)
+// console.log(leagueName)
   return (
     <>
         <div style={{ backgroundColor: "#38003c" }}>

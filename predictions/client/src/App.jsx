@@ -8,7 +8,7 @@ import LoginAndReg from './components/auth/LoginAndReg'
 import Dashboard from './components/userDashboard/Dashboard'
 import Predictions from './components/Predictions'
 import LeaguePage from './components/LeaguePage'
-import Homepage from './components/Homepage/HomePage'
+import Homepage from './components/Homepage/Homepage'
 import UpdateLeague from './components/UpdateLeague'
 
 

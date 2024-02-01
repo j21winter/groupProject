@@ -30,9 +30,10 @@ const changeHandler = (e, gameId) => {
 const viewGameWeek =  (e, data) => {
 
   e.preventDefault()
-  const chosenGameWeek =  Object.entries(scoresAndPredictions).filter(([key, value]) => key === data)
-  setDisplayWeek(chosenGameWeek[0][1])
-  gameWeekPointsTotal(chosenGameWeek[0][1].games)
+  const chosenGameWeek = scoresAndPredictions[data]
+  console.log(chosenGameWeek)
+  setDisplayWeek(chosenGameWeek)
+  gameWeekPointsTotal(chosenGameWeek.games)
 }
 
 const updateGameWeek =  (data, scores) => {
