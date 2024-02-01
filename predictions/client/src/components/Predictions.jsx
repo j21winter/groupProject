@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from 'react'
-import {Link} from 'react-router-dom'
 import UserContext from '../context/userContext'
 import axios from 'axios'
 import Header from '../components/Header'
@@ -11,12 +10,13 @@ const Predictions = () => {
   const [displayWeek , setDisplayWeek] = useState({})
   const [gameWeekPoints, setGameWeekPoints] = useState("0")
 
+  // find the game week that is next and display it when the page is mounted
   useEffect(() => {
     const nextGameWeek = Object.entries(scoresAndPredictions).filter(([key, value]) => value.gameWeekInfo && value.gameWeekInfo.is_next === true)
     setDisplayWeek(nextGameWeek[0][1])
   }, [])
 
-// change handler
+  // Change handler to track any new predictions that are made on any game
 const changeHandler = (e, gameId) => {
   e.preventDefault()
   setForms(prevInput => ({
@@ -27,64 +27,75 @@ const changeHandler = (e, gameId) => {
   }))
 }
 
-const viewGameWeek =  (e, data) => {
-
-  e.preventDefault()
-  const chosenGameWeek = scoresAndPredictions[data]
-  console.log(chosenGameWeek)
-  setDisplayWeek(chosenGameWeek)
-  gameWeekPointsTotal(chosenGameWeek.games)
-}
-
-const updateGameWeek =  (data, scores) => {
-
-  const chosenGameWeek =  Object.entries(scores).filter(([key, value]) => key === data)
-  setDisplayWeek(chosenGameWeek[0][1])
-  gameWeekPointsTotal(chosenGameWeek[0][1].games)
-}
-
-
-
-const validatePredictionData = () => {
-  setFormErrors({})
-  let isValid = true
-  const data = forms
-  for(let key in data){
-    if(!data[key].gameId || !data[key]['homeTeamScore'] || !data[key]['awayTeamScore']){
-      setFormErrors(prevErrors => ({
-        ...prevErrors, 
-        [key] : "Error in Game " + key
-        })
-      )
-      isValid = false
-    }
+// Function to adjust the game week we are viewing on click of a button in the left nav
+  const viewGameWeek =  (e, data) => {
+    e.preventDefault()
+    const chosenGameWeek = scoresAndPredictions[data]
+    setDisplayWeek(chosenGameWeek)
+    gameWeekPointsTotal(chosenGameWeek.games)
   }
 
-  return isValid
-}
+  // Update display after submitting any predictions
+  const updateGameWeek =  (data, scores) => {
+    const chosenGameWeek =  Object.entries(scores).filter(([key, value]) => key === data)
+    setDisplayWeek(chosenGameWeek[0][1])
+    gameWeekPointsTotal(chosenGameWeek[0][1].games)
+  }
 
+  // make sure what we are sending is in valid prediction format
+  const validatePredictionData = () => {
+    setFormErrors({})
+    let isValid = true
+    const data = forms
+    for(let key in data){
+      if(!data[key].gameId || !data[key]['homeTeamScore'] || !data[key]['awayTeamScore']){
+        setFormErrors(prevErrors => ({
+          ...prevErrors, 
+          [key] : "Error in Game " + key
+          })
+        )
+        isValid = false
+      }
+    }
+
+    return isValid
+  }
+
+  // Submit a bundle of predictions
 const submitPredictions = async (e) => {
   e.preventDefault()
+
   try{
     const data = forms
+    // if it fails validations return false message
     if(!validatePredictionData(data)){
       console.log("validation failed")
       return
+
     } else {
+      // Validation passed
       console.log("validation passed!")
+      // form errors are cleares away
       setFormErrors({})
+      // convert the object to an array of values only. Key is not required 
       const arrForms = Object.entries(forms).map(([key, value]) => value)
+      // send to the db
       const response = await axios.post('http://localhost:8000/api/predictions/new/many', arrForms, {withCredentials: true})
-      await setUser(prevUser => ({
+      // update the dom 
+      setUser(prevUser => ({
         ...prevUser, 
+        // replace predictions
         ['predictions'] : response.data.updatedUser.predictions,
+        // replace points
         ['points'] : response.data.updatedUser.points
       }))
-      await setScoresAndPredictions(response.data.scoresAndPredictions)
-      await setForms({})
-      await updateGameWeek(String(displayWeek.gameWeekInfo.id), response.data.scoresAndPredictions)
-  }
-      
+      // update scores and predictions with new updated version
+      setScoresAndPredictions(response.data.scoresAndPredictions)
+      // clear any forms data for new inputs to be made 
+      setForms({})
+      // refresh game week view 
+      updateGameWeek(String(displayWeek.gameWeekInfo.id), response.data.scoresAndPredictions)
+    }
   }catch(err) {
     console.log(err)
   }
@@ -101,30 +112,53 @@ const submitPredictions = async (e) => {
     let deadline = new Date(date)
     let userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     let localDeadline = deadline.toLocaleString('en-US', {userTimeZone})
-
     return localDeadline
   }
 
+  // sort games in date order as they come in game # order
   const sortByDate = data => {
     const dateOrder = data.slice().sort((a,b) => new Date(a.gameInfo.kickoff_time) -  new Date(b.gameInfo.kickoff_time))
     return dateOrder
   }
 
+  // Sum points in a given game week
   const gameWeekPointsTotal = (games) => {
-
-
     let pointsSum = 0 
     for(let game of games){
-
       if(game.prediction){
         pointsSum += game.prediction.pointsLog.totalPoints
-
       } else {
         continue
       }
     }
-
     setGameWeekPoints(pointsSum)
+  }
+
+  const submitUpdate = (e, predictionId) => {
+    e.preventDefault()
+
+    const updateObject = {
+      id : predictionId,
+      homeTeamScore : e.target.elements.homeTeamScore.value, 
+      awayTeamScore : e.target.elements.awayTeamScore.value, 
+    }
+
+    axios.patch(`http://localhost:8000/api/predictions/${predictionId}`, updateObject, {withCredentials: true})
+      .then(res => {
+        // update the dom 
+        setUser(prevUser => ({
+          ...prevUser, 
+          // replace predictions
+          ['predictions'] : res.data.updatedUser.predictions,
+          // replace points
+          ['points'] : res.data.updatedUser.points
+        }))
+        // update scores and predictions with new updated version
+        setScoresAndPredictions(res.data.scoresAndPredictions)
+        // refresh game week view 
+        updateGameWeek(String(displayWeek.gameWeekInfo.id), res.data.scoresAndPredictions)
+      })
+      .catch(err => console.log(err))
   }
   
   return (
@@ -181,7 +215,7 @@ const submitPredictions = async (e) => {
                         </div>
                         <p className='text-center m-0'>{game.gameInfo.kickoff_time ? convertDateConcise(game.gameInfo.kickoff_time) : ""}</p>
                     </div>
-                    {/* iif prediction is needed and we are not passed the deadline */}
+                    {/* if prediction is needed and we are not passed the deadline */}
                     {game.prediction === null && new Date() < new Date(localDeadline(displayWeek.gameWeekInfo.deadline_time)) ? (
                       <div className='shadow text-dark-emphasis fw-bold m-1 w-100 mx-auto rounded-3 p-1' style={{backgroundColor : "#38003c"}}>
                         <p className='text-center text-white w-100 m-0 p-0'>Prediction Required</p>
@@ -197,7 +231,29 @@ const submitPredictions = async (e) => {
                           </div>
                         </form>
                       </div>
-                    ) : game.prediction != null ? (
+                      // if prediction is present but deadline is still open, allow user to update 
+                    ) : game.prediction && new Date() < new Date(localDeadline(displayWeek.gameWeekInfo.deadline_time)) ? (
+                      <div className='shadow text-dark-emphasis fw-bold m-1 w-100 mx-auto rounded-3 p-1 ' style={{backgroundColor : "#04f5ff"}}>
+                        <div className='d-flex justify-content-evenly '>
+                          {/* <p className='text-center text-dark-emphasis  w-100 m-0 p-0'>{game.prediction.homeTeamScore} </p> */}
+                          <p className='text-center text-dark-emphasis  w-100 m-0 p-0'> Current Prediction  </p>
+                          {/* <p className='text-center text-dark-emphasis  w-100 m-0 p-0'>{game.prediction.awayTeamScore}</p> */}
+                        </div>
+                        {formErrors[game.gameInfo.id] && <p className='text-danger text-center '>{formErrors[game.gameInfo.id]}</p>}
+                        <form className='text-center mb-2 d-flex p-1 mx-1 align-items-center w-100' onSubmit={(e) => submitUpdate(e, game.prediction._id)}>
+                          <div className="input-group input-group-sm border-1 border-black px-1">
+                            <label htmlFor="homeTeamScore" className="input-group-text border-1" style={{backgroundColor: "#ffffff"}}>{teamNames[game.gameInfo.team_h]} Score:</label>
+                            <input type="number" name='homeTeamScore' min={0} className="form-control border-1 text-center" placeholder={game.prediction.homeTeamScore} />
+                          </div>
+                          <div className="input-group input-group-sm border-1 border-black px-1">
+                            <label htmlFor="awayTeamScore" className="input-group-text border-1" style={{backgroundColor: "#ffffff"}}>{teamNames[game.gameInfo.team_a]} Score: </label>
+                            <input type="number" name='awayTeamScore' min={0} className="form-control border-1 text-center" placeholder={game.prediction.awayTeamScore} />
+                          </div>
+                          <button type="submit"  className="btn btn-sm fw-semibold border-0  mx-1 mb-1 shadow " style={{backgroundColor: "#00ff85"}}>Update</button>
+                        </form>
+                      </div>
+                      // if prediction is present but the 
+                    ) : game.prediction && new Date() > new Date(localDeadline(displayWeek.gameWeekInfo.deadline_time)) ? (
                       <div className='shadow text-white fw-bold m-1 w-100 mx-auto rounded-3 p-1 d-flex justify-content-between align-items-center' style={{backgroundColor : "#38003c"}}>
                         <p className='m-0'>Prediction</p>
                         <p className='btn shadow text-dark-emphasis fw-bold bg-white m-0'>{teamNames[game.gameInfo.team_h]} {game.prediction.homeTeamScore} - {game.prediction.awayTeamScore} {teamNames[game.gameInfo.team_a]} </p>

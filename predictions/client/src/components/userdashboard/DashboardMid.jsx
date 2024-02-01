@@ -4,17 +4,41 @@ import {useParams, Link} from 'react-router-dom'
 import UserContext from '../../context/userContext';
 
 export const DashboardMid = () => {
-  const {user, setUser}=useContext(UserContext)
-  const {teamNames, setteamNames} = useContext(UserContext)
-  const {scoresAndPredictions, setscoresAndPredictions} = useContext(UserContext)
-  const [users, setUsers]=useState([])
-  const [upcominggames, setUpcominggames] = useState({})
+  const {user, setUser} = useContext(UserContext)
+  const {teamNames, setTeamNames} = useContext(UserContext)
+  const {scoresAndPredictions, setScoresAndPredictions} = useContext(UserContext)
+  const [users, setUsers] = useState([])
+  const [upcomingGames, setUpcomingGames] = useState({})
   const [currentGameWeek, setCurrentGameWeek] = useState(0);
-  const gameWeeks = Object.keys(upcominggames);
+  const gameWeeks = Object.keys(upcomingGames);
   const [countdown, setCountdown] = useState({})
   const [gameWeekName, setGameWeekName] = useState("")
 
+  {/* api call to get all users*/}
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/users", {withCredentials: true})
+    .then(res => {
+        setUsers(res.data.allUsers)
+        checkFutureGames()
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+  }, [])
 
+  // Set the countdown interval
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      makeCountdown();
+    }, 1000);
+  
+    return () => {
+      // Clear the interval to prevent memory leaks
+      clearInterval(intervalId);
+    };
+  }, [])
+
+  
   const goToNextWeek = () => {
         setCurrentGameWeek(current => (current + 1) % gameWeeks.length);
   };
@@ -23,7 +47,7 @@ export const DashboardMid = () => {
         setCurrentGameWeek(current => (current - 1 + gameWeeks.length) % gameWeeks.length);
   };
 
-  const checkfuturegames = () => {
+  const checkFutureGames = () => {
     let upcomingGamesByWeek = {};
     for (const gameWeekKey in scoresAndPredictions) {
         const gameWeek = scoresAndPredictions[gameWeekKey];
@@ -52,51 +76,25 @@ export const DashboardMid = () => {
             console.warn(`Missing gameWeekInfo or games for game week: ${gameWeekKey}`);
         }
     }
-    setUpcominggames(upcomingGamesByWeek);
-};
+    setUpcomingGames(upcomingGamesByWeek);
+  };
 
-  {/* api call to get all users*/}
-  useEffect(()=>{
-
-    axios.get("http://localhost:8000/api/users")
-    .then(res=>{
-
-        setUsers(res.data.allUsers)
-        checkfuturegames()
-    })
-    .catch(err=>{
-        console.log(err)
-    })
-  }, [])
 
 // Convert to US time 
-const localDeadline = date => {
-let deadline = new Date(date)
-let userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-let localDeadline = deadline.toLocaleString('en-US', {userTimeZone})
+  const localDeadline = date => {
+    let deadline = new Date(date)
+    let userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    let localDeadline = deadline.toLocaleString('en-US', {userTimeZone})
 
-return localDeadline
-}
+    return localDeadline
+  }
 
-useEffect(() => {
-  const intervalId = setInterval(() => {
-    makeCountdown();
-  }, 1000);
-
-  return () => {
-    // Clear the interval to prevent memory leaks
-    clearInterval(intervalId);
-  };
-  
-
-}, [])
-
-const makeCountdown = () => {
-  const deadline = getDeadline()
-  const time = timeToDeadLine(deadline)
-  setCountdown(time)
-  return time
-}
+  const makeCountdown = () => {
+    const deadline = getDeadline()
+    const time = timeToDeadLine(deadline)
+    setCountdown(time)
+    return time
+  }
 
   // Deadline Countdown
   const getDeadline = () => {
@@ -152,7 +150,7 @@ const makeCountdown = () => {
           {gameWeeks.length > 0 && (
               <div className='p-1'>
                   <h3>{gameWeeks[currentGameWeek]}</h3>
-                  {upcominggames[gameWeeks[currentGameWeek]].map((game, index) => (
+                  {upcomingGames[gameWeeks[currentGameWeek]].map((game, index) => (
                       <div key={index} className='d-flex w-100 justify-content-evenly btn shadow text-dark-emphasis fw-bold mb-1 w-100 '>
                           <p className='m-0'>{game.teamH} vs {game.teamA}</p>
                           <p className='m-0'>{localDeadline(game.kickoffTime)}</p>

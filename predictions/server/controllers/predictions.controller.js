@@ -51,14 +51,16 @@ const findAllPredictions = (req, res) => {
         .catch(err => console.log(err))
 }
 // UPDATE
-const updatePrediction = (req, res) => {
-    Prediction.findByIdAndUpdate(req.params.id, req.body)
-        .then( updatedPrediction => {
-            res.status(200).json(updatedPrediction)
-        })
-        .catch(err => {
-            res.status(400).json(err)
-        })
+const updatePrediction = async (req, res) => {
+    try {
+        const updatedPrediction = await Prediction.findByIdAndUpdate(req.params.id, req.body)
+
+        const {updatedUser, scoresAndPredictions} = await FPL_API.scoresAndPredictions(updatedPrediction.user)
+
+        res.status(200).json({updatedUser, scoresAndPredictions})
+    } catch(err) {
+        res.status(400).json(err)
+    } 
 
 }
 

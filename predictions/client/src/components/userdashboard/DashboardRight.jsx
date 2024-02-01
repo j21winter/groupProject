@@ -11,7 +11,7 @@ const DashboardRight = () => {
 
 //  axios call to get all leagues
   useEffect(()=>{
-    axios.get("http://localhost:8000/api/allLeagues")
+    axios.get("http://localhost:8000/api/allLeagues", {withCredentials: true})
       .then(res => {
         const finalList = res.data.allLeagues.filter(league => league.user !== user._id && !league.members.some(member => member._id === user._id));
         setNotUsersLeagues(finalList)
