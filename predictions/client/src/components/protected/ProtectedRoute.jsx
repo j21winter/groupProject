@@ -20,7 +20,7 @@ export default function ProtectedRoute({children}) {
     if (isEmpty(user)) {
         navigate('/');
     }
-    }, []);
+    }, [user]);
 
     return children // If user is present continue with the children component
 }
