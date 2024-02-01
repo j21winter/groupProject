@@ -125,7 +125,7 @@ const submitPredictions = async (e) => {
   const gameWeekPointsTotal = (games) => {
     let pointsSum = 0 
     for(let game of games){
-      if(game.prediction){
+      if(game.prediction && game.prediction.pointsLog.totalPoints){
         pointsSum += game.prediction.pointsLog.totalPoints
       } else {
         continue
@@ -169,7 +169,7 @@ const submitPredictions = async (e) => {
           {/* left */}
           <div className='sidebar col-2 p-2 bg-white rounded rounded-3 mx-3 overflow-hidden border border-1 border-white'>
             <div className='text-center'>
-              <button className="btn btn-sm fw-semibold border-0  mx-1 mb-1 shadow " style={{backgroundColor: "#00ff85"}} onClick={(e) => submitPredictions(e)}>Submit your Predictions</button>
+              <button className="btn fw-semibold border-0 mb-2 shadow w-100 p-2 " style={{backgroundColor: "#00ff85"}} onClick={(e) => submitPredictions(e)}>Submit your Predictions</button>
             </div>
             {Object.entries(scoresAndPredictions).map(([key, value]) => (
               <button key={key} className='btn shadow text-dark-emphasis fw-bold mb-1 w-100' onClick={(e) => viewGameWeek(e, key)}>{value.gameWeekInfo ? value.gameWeekInfo.name : ""} </button>

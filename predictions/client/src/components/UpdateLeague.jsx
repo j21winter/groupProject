@@ -49,7 +49,7 @@ const UpdateLeague = (props) => {
                 <h1 style={{color: "white"}}>Update Your League Name</h1>
                 <form onSubmit={handleSubmit} >
                     <div className="form-group row d-flex justify-content-center">
-                        <label  for="leagueName" style={{color: "white"}}>League Name:</label>
+                        <label  htmlFor="leagueName" style={{color: "white"}}>League Name:</label>
                         <input className="form-control w-25 m-3" style={{border: "1px solid #00ff85"}} id="leagueName" type="text" name="league_name" value={leagueName} onChange={(e)=>{setLeagueName(e.target.value)} }/>
                         { errors.league_name ? 
                                     <p style={{color:"red"}}>{errors.league_name.message}</p>
