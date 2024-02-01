@@ -23,18 +23,31 @@ const LeaguePage = () => {
   }, [id]);
 
   //TO UPDATE OR JOIN THE LEAGUE
-const handleJoinLeague = () => {
-  axios.patch(`http://localhost:8000/api/league/${league._id}`, { userId: user._id }, {withCredentials: true})
-      .then(res => {
-          navigate("/dashboard")
-      })
-      .catch(err => {
-          console.log(err);
-      });
-};
+  const handleJoinLeague = (e) => {
+    e.preventDefault()
+    axios.patch(`http://localhost:8000/api/league/${league._id}`, { userId: user._id }, {withCredentials: true})
+        .then(res => {
+            setLeague(res.data)
+        })
+        .catch(err => {
+            console.log(err);
+        });
+  };
 
+  // Leave league
+  const handleLeaveLeague = (e) => {
+    e.preventDefault()
+    axios.patch(`http://localhost:8000/api/league/leave/${league._id}`, { userId: user._id }, {withCredentials: true})
+        .then(res => {
+            navigate("/dashboard")
+        })
+        .catch(err => {
+            console.log(err);
+        });
+  }
 
-  const handleDelete= (_id) => {
+// DELETE LEAGUE
+  const handleDelete = (_id) => {
     axios.delete(`http://localhost:8000/api/league/${_id}`, {withCredentials: true})
     .then(res => {
         setUser(prevUser => ({
@@ -84,11 +97,13 @@ const handleJoinLeague = () => {
               </div>
               ) : ''}
               {league.members && league.members.some(member => member._id === user._id) || league.user === user._id ?
-                <p className="mt-3">
-                  <span className="badge badge-success">You are a MEMBER</span>
-                </p>
+                <div className='mb-3'>
+                  <p className="badge badge-success">You are a MEMBER</p>
+                  { league.user === user._id ? "" : <button className="btn btn-join m-3" onClick={(e) => handleLeaveLeague(e)}>Leave League</button>} 
+                </div>
+                
               :
-                <button className="btn btn-join m-3" onClick={handleJoinLeague}>Join League</button>
+                <button className="btn btn-join m-3" onClick={(e) => handleJoinLeague(e)}>Join League</button>
               }
             </div>
           </div>
