@@ -4,10 +4,8 @@ import {useParams, Link} from 'react-router-dom'
 import UserContext from '../../context/userContext';
 
 export const DashboardMid = () => {
-  const {user, setUser}=useContext(UserContext)
-  const {teamNames, setteamNames} = useContext(UserContext)
-  const {scoresAndPredictions, setscoresAndPredictions} = useContext(UserContext)
-  const [users, setUsers]=useState([])
+  const {teamNames, scoresAndPredictions} = useContext(UserContext)
+  const [users, setUsers]= useState([])
   const [upcominggames, setUpcominggames] = useState({})
   const [currentGameWeek, setCurrentGameWeek] = useState(0);
   const gameWeeks = Object.keys(upcominggames);
