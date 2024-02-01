@@ -105,14 +105,14 @@ return (
                         <label htmlFor="email" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Email </label>
                         <input type="email" name='email' className="form-control border-0 text-end" value={loginInput.email} onChange={(e) => handleLoginInputChange(e)}/>
                     </div>
-                    {errors.login.email ? <p className='text-white text-center'>{errors.login.email}</p> : ""}
+                    {errors.login.email ? <p className=' text-center'>{errors.login.email}</p> : ""}
 
                     <div className="input-group input-group-sm border-0 mb-3 px-2 ">
                         <label htmlFor="password" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Password </label>
                         <input type="password" name='password' className="form-control border-0 text-end" value={loginInput.password} onChange={(e) => handleLoginInputChange(e)}/>
                     </div>
-                    {errors.login.password ? <p className='text-white text-center'>{errors.login.password}</p> : ""}
-                    {errors.login.error ? <p className='text-white text-center'>{errors.login.error}</p> : ""}
+                    {errors.login.password ? <p className=' text-center'>{errors.login.password}</p> : ""}
+                    {errors.login.error ? <p className=' text-center'>{errors.login.error}</p> : ""}
                     
                     <button className="btn btn-sm m-1" type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Login</button>
                     <button className="btn btn-sm btn-secondary  m-1" type="submit" onClick={() => setComponent("")}>Cancel</button>

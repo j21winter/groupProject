@@ -130,31 +130,31 @@ const RegForm = (props) => {
                         <label htmlFor="firstName" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>First name </label>
                         <input type="text" name='firstName' className="form-control border-0 text-end bg-light" value={regInput.firstName} onChange={(e) => handleRegistrationInputChange(e)}/>
                     </div>
-                    {errors.registration.firstName ? <p className='text-white text-center'>{errors.registration.firstName}</p> : ""}
+                    {errors.registration.firstName ? <p className=' text-center'>{errors.registration.firstName}</p> : ""}
 
                     <div className="input-group input-group-sm border-0 mb-3 px-2">
                         <label htmlFor="lastName" className="input-group-text border-0" style={{backgroundColor: "#ffffff"}}>Last name </label>
                         <input type="text" name='lastName' className="form-control border-0 text-end bg-light" value={regInput.lastName} onChange={(e) => handleRegistrationInputChange(e)}/>
                     </div>
-                    {errors.registration.lastName ? <p className='text-white text-center'>{errors.registration.lastName}</p> : ""}
+                    {errors.registration.lastName ? <p className=' text-center'>{errors.registration.lastName}</p> : ""}
 
                     <div className="input-group input-group-sm border-0 mb-3 px-2">
                         <label htmlFor="email" className="input-group-text border-0 " style={{backgroundColor: "#ffffff"}}>Email </label>
                         <input type="email" name='email' className="form-control border-0 text-end bg-light" value={regInput.email} onChange={(e) => handleRegistrationInputChange(e)}/>
                     </div>
-                    {errors.registration.email ? <p className='text-white text-center'>{errors.registration.email}</p> : ""}
+                    {errors.registration.email ? <p className=' text-center'>{errors.registration.email}</p> : ""}
 
                     <div className="input-group input-group-sm border-0 mb-3 px-2">
                         <label htmlFor="password" className="input-group-text border-0 " style={{backgroundColor: "#ffffff"}}>Password </label>
                         <input type="password" name='password' className="form-control border-0 text-end bg-light" value={regInput.password} onChange={(e) => handleRegistrationInputChange(e)}/>
                     </div>
-                    {errors.registration.password ? <p className='text-white text-center'>{errors.registration.password}</p> : ""}
+                    {errors.registration.password ? <p className=' text-center'>{errors.registration.password}</p> : ""}
 
                     <div className="input-group input-group-sm border-0 mb-3 px-2">
                         <label htmlFor="confirmPassword" className="input-group-text border-0 " style={{backgroundColor: "#ffffff"}}>Confirm Password </label>
                         <input type="password" name='confirmPassword' className="form-control border-0 text-end bg-light" value={regInput.confirmPassword} onChange={(e) => handleRegistrationInputChange(e)}/>
                     </div>
-                    {errors.registration.confirmPassword ? <p className='text-white text-center'>{errors.registration.confirmPassword}</p> : ""}
+                    {errors.registration.confirmPassword ? <p className=' text-center'>{errors.registration.confirmPassword}</p> : ""}
 
                     <button className="btn btn-sm m-1" type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Login</button>
                     <button className="btn btn-sm btn-secondary  m-1" type="submit" onClick={() => setComponent("")}>Cancel</button>
