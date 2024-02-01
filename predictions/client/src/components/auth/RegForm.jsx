@@ -151,7 +151,7 @@ const RegForm = (props) => {
                     </div>
                     {errors.registration.confirmPassword ? <p className=' text-center'>{errors.registration.confirmPassword}</p> : ""}
 
-                    <button className="btn btn-sm m-1" type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Login</button>
+                    <button className="btn btn-sm m-1" type="submit" style={{backgroundColor: "#00ff85", color: "#38003c"}}>Register</button>
                     <button className="btn btn-sm btn-secondary  m-1" type="submit" onClick={() => setComponent("")}>Cancel</button>
                 </div>
 
