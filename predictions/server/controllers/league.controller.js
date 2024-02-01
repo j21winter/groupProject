@@ -52,12 +52,24 @@ const updateLeague = (req, res) => {
         {_id: req.params.id}, 
         { $addToSet: { members: req.body.userId } }, // use $addToSet instead of push to avoid dublicates
         { new: true, runValidators: true }
-    )
+    ).populate("members")
     .then(updatedLeague => {
         res.status(200).json(updatedLeague)
     })
     .catch(err => res.status(400).json({ message: "something went wrong in update method", error: err }))
 };
+
+const leaveLeague = (req, res) => {
+    League.findByIdAndUpdate(
+        {_id: req.params.id}, 
+        { $pull: { members: req.body.userId } }, 
+        { new: true, runValidators: true }
+    ).populate("members")
+    .then(updatedLeague => {
+        res.status(200).json(updatedLeague)
+    })
+    .catch(err => res.status(400).json({ message: "something went wrong in update method", error: err }))
+}
 
 // UPDATE to add members
 const updateLeagueinfo = (req, res) => {
@@ -65,7 +77,7 @@ const updateLeagueinfo = (req, res) => {
         { _id: req.params.id }, 
         { league_name: req.body.leagueName }, // Update league_name instead of members
         { new: true, runValidators: true }
-    )
+    ).populate("members")
     .then(updatedLeague => {
         res.status(200).json(updatedLeague);
     })
@@ -93,5 +105,6 @@ module.exports = {
     updateLeague, 
     deleteLeague,
     findAllLeagues,
-    updateLeagueinfo
+    updateLeagueinfo, 
+    leaveLeague
 }

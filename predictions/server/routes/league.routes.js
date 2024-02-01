@@ -18,6 +18,7 @@ module.exports = (app) => {
 
     // UPDATE NAME
     app.patch('/api/league/info/:id',  authenticate, LeagueController.updateLeagueinfo);
+    app.patch('/api/league/leave/:id',  authenticate, LeagueController.leaveLeague);
 
     // UPDATE to add members
     app.patch('/api/league/:id',  authenticate, LeagueController.updateLeague)

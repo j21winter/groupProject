@@ -19,7 +19,7 @@ const DashboardLeft = () => {
   const handleLeagueSubmit = (e) => {
     e.preventDefault();
     setErrors({});
-    axios.post('http://localhost:8000/api/league/new', { ...leagueInput })
+    axios.post('http://localhost:8000/api/league/new', { ...leagueInput }, {withCredentials: true})
       .then(res => {
         setLeagueInput({ league_name: "", user: user._id });
 
@@ -63,7 +63,7 @@ const DashboardLeft = () => {
                 <input type="text" name="league_name"  value={leagueInput.league_name} onChange={(e)=>handleChange(e)} className="form-control"/>
               </div>
               <button type="submit" className="btn btn-sm fw-semibold" style={{backgroundColor: "#00ff85"}}>Submit</button>
-              {errors.league_name ? <p style={{color:"red"}}>{errors.league_name.message}</p> : ""}
+              {errors.leagues && errors.leagues.league_name ? <p style={{color:"red"}}>{errors.league.league_name.message}</p> : ""}
             </form>
           </div>
           <h3 className='fs-5 text-center text-white fw-bold w-100 p-2 rounded-top-3' style={{backgroundImage: "linear-gradient(to right, #38003c, #04f5ff"}}>Leagues You Own</h3>
