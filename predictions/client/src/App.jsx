@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import {Routes, Route, Navigate, useParams} from 'react-router-dom'
 import axios from 'axios'
-
 import UserContext from './context/userContext'
 
 import LoginAndReg from './components/auth/LoginAndReg'
@@ -70,7 +69,6 @@ function App() {
 
   return (
     <>
-
       <UserContext.Provider value={{user, setUser, saveLoggedInUser, scoresAndPredictions, setScoresAndPredictions, teamNames, leagues, setLeagues }}>
           <Routes>
               <Route path='/' element={<Homepage/>} />  
